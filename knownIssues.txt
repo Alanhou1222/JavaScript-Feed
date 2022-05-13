@@ -1,0 +1,2 @@
+1. Indicate whether to send a cookie in a cross-site request by specifying its SameSite attribute
+Need to have SameSite attribute or (Set-Cookie: cross-site-cookie=whatever; SameSite=None; Secure)
