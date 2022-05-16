@@ -4,12 +4,7 @@
 		<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <style>
 			#myfeed {
-				border:1px solid red;
                 width: 100%;
-                padding-right: 15px;
-                padding-left: 15px;
-                margin-right: auto;
-                margin-left: auto;
 			}
 			#myfeed div {
                 font-size: small;
@@ -19,8 +14,6 @@
                 height: 320px;
                 display: flex;
                 flex-wrap: wrap;
-                margin-right: -15px;
-                margin-left: -15px;
             }
             .event{
                 box-sizing: border-box;
@@ -29,6 +22,7 @@
                 padding: 0px;
                 height: 100%;
                 flex: 0 0 25%;
+                max-width: 25%;
             }
             .eventText{
                 background: rgba(51, 51, 51, 1);
@@ -40,9 +34,11 @@
                 font-weight: bold;
                 line-height: 150%;
                 text-decoration: none;
+                
             }
-            .event h3 a{
+            .event a:hover{
                 text-decoration: underline;
+                
             }
             .event ul{
                 padding: 0px;
@@ -105,8 +101,10 @@
             location_name = obj.location_name;
             html+= '<li>Location: '+location_name+'</li></ul>';
             for(let i = 0; i < Object.keys(links).length; i++){
-                text = links[i].title == null ? links[i].url: links[i].title;
-                link = '<a href = '+links[i].url+'>'+text + '</a>'
+                defaultTitle = (links[i].url.split("://"))[1];
+                defaultTitle = (defaultTitle.split('/'))[0];
+                text = links[i].title == null ? defaultTitle: links[i].title;
+                link = '<a href = '+links[i].url+'>'+text + '</a><br>'
                 html+= link;
             }
 			html += '</div></div>';
