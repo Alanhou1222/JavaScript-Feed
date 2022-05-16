@@ -44,7 +44,7 @@
                 padding: 0px;
                 margin: 5px 0px 0px 0px;
                 list-style-type: none;
-        font-size: 12px;
+                font-size: 12px;
             }
             .event li{
                 list-style-type: none;
@@ -102,7 +102,8 @@
             html += '<ul><li><i class="fa fa-fw fa-calendar"></i> Date: '+date+'</li>';
             links = obj.links;
             location_name = obj.location_name;
-            html+= '<li><i class="fa fa-location-arrow fa-fw"></i> Location: '+location_name+'</li></ul>';
+            if(location_name)
+                html+= '<li><i class="fa fa-location-arrow fa-fw"></i> Location: '+location_name+'</li></ul>';
             for(let i = 0; i < Object.keys(links).length; i++){
                 defaultTitle = (links[i].url.split("://"))[1];
                 defaultTitle = (defaultTitle.split('/'))[0];
