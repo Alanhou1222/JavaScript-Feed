@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">        <style>
 			#myfeed {
                 width: 100%;
 			}
@@ -60,6 +60,9 @@
                 height: 45%;
                 object-fit: cover;
             }
+            .fa-link{
+                color: #ffcb05;
+            }
 		</style>
 	</head>
 	<body>
@@ -96,15 +99,15 @@
             title = obj.combined_title;
 			html += '<h3><a href ='+obj.permalink+'>'+title+'</a></h3>';
             date = obj.date_start;
-            html += '<ul><li>Date: '+date+'</li>';
+            html += '<ul><li><i class="fa fa-fw fa-calendar"></i> Date: '+date+'</li>';
             links = obj.links;
             location_name = obj.location_name;
-            html+= '<li>Location: '+location_name+'</li></ul>';
+            html+= '<li><i class="fa fa-location-arrow fa-fw"></i> Location: '+location_name+'</li></ul>';
             for(let i = 0; i < Object.keys(links).length; i++){
                 defaultTitle = (links[i].url.split("://"))[1];
                 defaultTitle = (defaultTitle.split('/'))[0];
                 text = links[i].title == null ? defaultTitle: links[i].title;
-                link = '<a href = '+links[i].url+'>'+text + '</a><br>'
+                link = '<i class="fa fa-link fa-fw"></i><a href = '+links[i].url+'> '+text + '</a><br>'
                 html+= link;
             }
 			html += '</div></div>';
