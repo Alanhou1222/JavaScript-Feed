@@ -12,10 +12,10 @@ $(function() { // Document ready function
     //copy of events data
     var events;
 
-    function pagination(data, page){
+    function pagination(page){
         let trimStart = (page - 1) * state.elements;
         let trimEnd = trimStart + state.elements;
-        let trimmedData = data.slice(trimStart, trimEnd);
+        let trimmedData = events.slice(trimStart, trimEnd);
         for(i in trimmedData) { // loop though list of objects
             if(i%4==0){
                 row = '<div class="eventRow container">';
@@ -33,6 +33,11 @@ $(function() { // Document ready function
             html += '<button value = '+page+' class = page-button>'+page+'</button>';
         }
         $('#pagination-wrapper').append(html);
+        $('.page-button').on('click', function(){
+            $('#myfeed').empty();
+            state.page = $(this).val();
+            pagination(state.page);
+        })
         
     }
     // Run an ajax call. The documentation is here : http://api.jquery.com/jquery.ajax/
@@ -43,7 +48,7 @@ $(function() { // Document ready function
             state.count = events.length;
             state.pageNum = Math.ceil(state.count/state.elements);
             if(events.length){ // if anything was returned
-                pagination(events,state.page);
+                pagination(state.page);
             }
             pageButton(state.pageNum);
         }
