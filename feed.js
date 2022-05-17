@@ -57,7 +57,7 @@ $(function() { // Document ready function
     // create html for object.
     function buildEvent(obj) {
         let html = '<div class="event">';
-        let image = '<img class = "eventImage" src = "'+obj.image_url+'">';
+        let image = '<img class = "event-image" src = "'+obj.image_url+'">';
         html += image+'<br>';
         html += '<div class = "eventText">';
         let title = obj.combined_title;
