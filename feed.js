@@ -13,6 +13,7 @@ $(function() { // Document ready function
     var events;
 
     function pagination(page){
+        $('#myfeed').empty();
         let trimStart = (page - 1) * state.elements;
         let trimEnd = trimStart + state.elements;
         let trimmedData = events.slice(trimStart, trimEnd);
@@ -33,9 +34,11 @@ $(function() { // Document ready function
             html += '<button value = '+page+' class = page-button>'+page+'</button>';
         }
         $('#pagination-wrapper').append(html);
+        $('.page-button').first().addClass('current-page');
         $('.page-button').on('click', function(){
-            $('#myfeed').empty();
+            $('.page-button').removeClass('current-page');
             state.page = $(this).val();
+            $(this).addClass('current-page');
             pagination(state.page);
         })
         

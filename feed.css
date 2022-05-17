@@ -87,6 +87,9 @@
     background-color: #ffe205;
     cursor: pointer;
 }
+.current-page{
+    background-color: #007bff;
+}
 @media only screen and (max-width: 768px) {
     .event{
         flex: 0 0 50%;
