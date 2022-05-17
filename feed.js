@@ -18,7 +18,7 @@ $(function() { // Document ready function
         let trimmedData = data.slice(trimStart, trimEnd);
         for(i in trimmedData) { // loop though list of objects
             if(i%4==0){
-                row = '<div class="eventRow">';
+                row = '<div class="eventRow container">';
                 $('#myfeed').append(row);
             }
             let html = buildEvent(trimmedData[i]); // build html for object
@@ -68,7 +68,13 @@ $(function() { // Document ready function
             defaultTitle = (defaultTitle.split('/'))[0];
             let text = links[i].title == null ? defaultTitle: links[i].title;
             link = '<i class="fa fa-link fa-fw"></i><a href = '+links[i].url+'> '+text + '</a><br>'
-            html+= link;
+            if(i % 2 == 0){
+                html += '<div class = container>';
+            }
+            html+= '<div class = "link-container">'+link+'</div>';
+            if(i % 2 != 0){
+                html += '</div>';
+            }
         }
         html += '</div></div>';
 
