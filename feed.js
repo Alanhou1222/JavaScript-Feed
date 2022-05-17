@@ -60,8 +60,10 @@ $(function() { // Document ready function
         let image = '<img class = "event-image" src = "'+obj.image_url+'">';
         html += image+'<br>';
         html += '<div class = "eventText">';
-        let title = obj.combined_title;
+        let title = obj.event_title;
         html += '<h3><a href ='+obj.permalink+'>'+title+'</a></h3>';
+        let subtitle = obj.event_subtitle;
+        html += '<i class = "subtitle">'+subtitle+'</i>';
         let date = obj.date_start;
         html += '<ul><li><i class="fa fa-fw fa-calendar"></i><span> Date: '+date+'</span></li>';
         let links = obj.links;
