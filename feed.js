@@ -6,7 +6,8 @@ $(function() { // Document ready function
         'page':1,
         'elements': 8,
         'count': 0,
-        'pageNum': 0
+        'pageNum': 0,
+        'window': 5,
     }
     
     //copy of events data
@@ -25,21 +26,41 @@ $(function() { // Document ready function
             let html = buildEvent(trimmedData[i]); // build html for object
             $('.eventRow').last().append(html); // append each object to the <div id="myfeed"></div>
         }
+        pageButton();
     }
 
-    function pageButton(pages){
+    function pageButton(){
         $('#pagination-wrapper').empty();
         let html = '';
-        for(let page = 1; page <= pages; page++){
+        var maxLeft = (state.page - Math.floor(state.window/2));
+        var maxRight = (state.page + Math.floor(state.window/2));
+
+        if(maxLeft < 1){
+            maxLeft = 1;
+            maxRight = state.window;
+        }
+        if(maxRight > state.pageNum){
+            maxLeft = state.pageNum - (state.window - 1);
+            maxRight = state.pageNum;
+            if(maxLeft < 1){
+                maxLeft = 1;
+            }
+        }
+        for(let page = maxLeft; page <= maxRight; page++){
             html += '<button value = '+page+' class = page-button>'+page+'</button>';
         }
+        if (state.page != 1) {
+            html = '<button value='+1+' class = "page-button">&#171; First</button>' + html;
+        }
+    
+        if (state.page != state.pageNum) {
+            html += '<button value='+state.pageNum+' class="page-button">Last &#187;</button>';
+        }
         $('#pagination-wrapper').append(html);
-        $('.page-button').first().addClass('current-page');
         $('.page-button').on('click', function(){
-            $('.page-button').removeClass('current-page');
-            state.page = $(this).val();
-            $(this).addClass('current-page');
+            state.page = Number($(this).val());
             pagination(state.page);
+            $('.page-button').filter(function(){return this.value==state.page}).addClass('current-page');
         })
         
     }
@@ -53,7 +74,7 @@ $(function() { // Document ready function
             if(events.length){ // if anything was returned
                 pagination(state.page);
             }
-            pageButton(state.pageNum);
+            pageButton();
         }
     });
     
