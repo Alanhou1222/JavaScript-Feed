@@ -77,17 +77,16 @@ $(function() { // Document ready function
             pageButton();
         }
     });
-    
+
     // create html for object.
     function buildEvent(obj) {
         let html = '<div class="event">';
-        let image = '<img class = "event-image" src = "'+obj.image_url+'">';
-        html += image+'<br>';
+        let image_url = (obj.image_url) ? obj.image_url: "https://events.umich.edu/images/default190@2x.png";
+        let image = '<a class = "image-link" href ='+obj.permalink+'><div class = "event-image" style="background-image: url('+image_url+');)"></div></a>';
+        html += image;
         html += '<div class = "eventText">';
         let title = obj.event_title;
         html += '<h3><a href ='+obj.permalink+'>'+title+'</a></h3>';
-        let subtitle = obj.event_subtitle;
-        html += '<i class = "subtitle">'+subtitle+'</i>';
         let date = obj.date_start;
         html += '<ul><li><i class="fa fa-fw fa-calendar"></i><span> Date: '+date+'</span></li>';
         let links = obj.links;

@@ -58,13 +58,13 @@
 .event h3 a{
     font-size: 14px;
 }
-.subtitle{
-    font-size: 11px;
-}
 .event-image{
-    width: 100%;
+    color: white;
+    overflow: hidden;
+    background-size: cover;
+    text-align: center;
     height: 50%;
-    object-fit: cover;
+    position: relative;
 }
 .fa-link{
     color: #ffcb05;
