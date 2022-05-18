@@ -9,7 +9,7 @@ $(function() { // Document ready function
         'pageNum': 0,
         'window': 5,
         'feedSize': 0,
-        'elementPerRow': 0,
+        'elementPerRow': 1,
     }
     
     //copy of events data
@@ -33,7 +33,7 @@ $(function() { // Document ready function
     $(window).resize(function() {
         state.feedSize = $('#myfeed').width();
         if(state.elementPerRow != Math.floor(state.feedSize/300)){
-            state.elementPerRow = Math.floor(state.feedSize/300);
+            state.elementPerRow = Math.floor(state.feedSize/300)>=1 ? Math.floor(state.feedSize/300): 1;
             pagination();
         }
     });
@@ -80,7 +80,7 @@ $(function() { // Document ready function
             state.count = events.length;
             state.pageNum = Math.ceil(state.count/state.elements);
             state.feedSize = $('#myfeed').width();
-            state.elementPerRow = Math.floor(state.feedSize/300);
+            state.elementPerRow = Math.floor(state.feedSize/300)>=1 ? Math.floor(state.feedSize/300): 1;
             if(events.length){ // if anything was returned
                 pagination();
             }
