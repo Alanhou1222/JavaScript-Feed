@@ -1,8 +1,3 @@
 1. Indicate whether to send a cookie in a cross-site request by specifying its SameSite attribute
     Need to have SameSite attribute or (Set-Cookie: cross-site-cookie=whatever; SameSite=None; Secure)
     Sometimes error messages don't show.
-
-2. If embeded, links may be too long and look weird.
-
-3. The feed should fit the media of the container instead of the whole window.
-(fixing No.3 may also fix No.2)
