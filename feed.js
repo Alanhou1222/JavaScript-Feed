@@ -8,18 +8,20 @@ $(function() { // Document ready function
         'count': 0,
         'pageNum': 0,
         'window': 5,
+        'feedSize': 0,
+        'elementPerRow': 0,
     }
     
     //copy of events data
     var events;
 
-    function pagination(page){
+    function pagination(){
         $('#myfeed').empty();
-        let trimStart = (page - 1) * state.elements;
+        let trimStart = (state.page - 1) * state.elements;
         let trimEnd = trimStart + state.elements;
         let trimmedData = events.slice(trimStart, trimEnd);
         for(i in trimmedData) { // loop though list of objects
-            if(i%4==0){
+            if(i%state.elementPerRow==0){
                 row = '<div class="eventRow container">';
                 $('#myfeed').append(row);
             }
@@ -28,7 +30,13 @@ $(function() { // Document ready function
         }
         pageButton();
     }
-
+    $(window).resize(function() {
+        state.feedSize = $('#myfeed').width();
+        if(state.elementPerRow != Math.floor(state.feedSize/300)){
+            state.elementPerRow = Math.floor(state.feedSize/300);
+            pagination();
+        }
+    });
     function pageButton(){
         $('#pagination-wrapper').empty();
         let html = '';
@@ -59,7 +67,7 @@ $(function() { // Document ready function
         $('#pagination-wrapper').append(html);
         $('.page-button').on('click', function(){
             state.page = Number($(this).val());
-            pagination(state.page);
+            pagination();
             $('.page-button').filter(function(){return this.value==state.page}).addClass('current-page');
         })
         
@@ -71,8 +79,10 @@ $(function() { // Document ready function
             events = data;
             state.count = events.length;
             state.pageNum = Math.ceil(state.count/state.elements);
+            state.feedSize = $('#myfeed').width();
+            state.elementPerRow = Math.floor(state.feedSize/300);
             if(events.length){ // if anything was returned
-                pagination(state.page);
+                pagination();
             }
             pageButton();
         }
@@ -80,7 +90,7 @@ $(function() { // Document ready function
 
     // create html for object.
     function buildEvent(obj) {
-        let html = '<div class="event">';
+        let html = '<div class="event" style="flex:0 0 '+(100/state.elementPerRow)+'%">';
         let image_url = (obj.image_url) ? obj.image_url: "https://events.umich.edu/images/default190@2x.png";
         let image = '<a class = "image-link" href ='+obj.permalink+'><div class = "event-image" style="background-image: url('+image_url+');)"></div></a>';
         html += image;
