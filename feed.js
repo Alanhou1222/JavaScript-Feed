@@ -76,6 +76,8 @@ $(function() { // Document ready function
     $.ajax({
         url: url, // Set the URL for the json feed
         success: function(data) { // Run this if there is a successful call
+            paginationHtml = '<div class = "pagination-container container"><div id="pagination-wrapper"></div></div>';
+            $('#myfeed').after(paginationHtml);
             events = data;
             state.count = events.length;
             state.pageNum = Math.ceil(state.count/state.elements);
