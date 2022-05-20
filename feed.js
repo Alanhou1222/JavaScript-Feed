@@ -78,6 +78,9 @@ $(function() { // Document ready function
         success: function(data) { // Run this if there is a successful call
             paginationHtml = '<div class = "pagination-container container"><div id="pagination-wrapper"></div></div>';
             $('#myfeed').after(paginationHtml);
+            linkToHappening = url.replace("/json", "");
+            linkToHappeningHtml = '<div class = "container link-to-happening"><a href = "'+ linkToHappening+ '">View on Happening @ Michigan</a></div>'
+            $('#myfeed').after(linkToHappeningHtml);
             events = data;
             state.count = events.length;
             state.pageNum = Math.ceil(state.count/state.elements);

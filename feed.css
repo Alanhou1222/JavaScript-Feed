@@ -24,15 +24,28 @@
     background: rgba(51, 51, 51, 1);
     padding: 5px;
 }
+.link-to-happening{
+    background: rgba(51, 51, 51, 1);
+    border-radius: 3px;
+    padding: 10px;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+.link-to-happening a{
+    font-size: 14px;
+    color: #ffcb05;
+    font-weight: bold;
+    line-height: 125%;
+    text-decoration: none;
+}
 .event a{
     font-size: 11px;
     color: #ffcb05;
     font-weight: bold;
     line-height: 150%;
     text-decoration: none;
-    
 }
-.event a:hover{
+a:hover{
     text-decoration: underline;
     
 }
