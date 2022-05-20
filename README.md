@@ -19,6 +19,6 @@ A HTML embeded event feed for [Happening @ Michigan](https://events.umich.edu/) 
 <div id="myfeed" url = "https://events.umich.edu/day/json?v=2"></div>
 <script src = "https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@latest/feed.js"></script>
 ```
-![Screen Shot](https://drive.google.com/file/d/1fug3j0Pcv7v2CY6lxpHQGoNsjZMJyioQ/view)
+![Screen Shot](/images/eventFeedExample.png)
 
 
