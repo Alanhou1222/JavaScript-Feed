@@ -1,3 +1,8 @@
 1. Indicate whether to send a cookie in a cross-site request by specifying its SameSite attribute
-    Need to have SameSite attribute or (Set-Cookie: cross-site-cookie=whatever; SameSite=None; Secure)
-    Sometimes error messages don't show.
+- Need to have SameSite attribute or (Set-Cookie: cross-site-cookie=whatever; SameSite=None; Secure)
+- Sometimes error messages don't show.
+
+2. Need to clear cache or wait to update js from jsdelivr cdn
+- jsDelivr has an easy to use API to purge files from the cache and force the files to update. This is useful when you release a new version and want to force the update of all version aliased users.
+- To avoid abuse, access to purge is given after an email request (for now - dak@prospectone.io).
+- See https://github.com/jsdelivr/jsdelivr#purge-cache and https://github.com/jsdelivr/jsdelivr/issues/18124 for more info.
