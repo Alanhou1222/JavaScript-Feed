@@ -1,5 +1,5 @@
 $(function() { // Document ready function
-    var url = 'https://events.umich.edu/list/json?filter=all&range=2022-05-16to2022-05-18&v=2' // This is the URL for your JSON feed. In this example it will pull all of todays events.
+    var url = $('#myfeed').attr('url'); // This is the URL for your JSON feed.
     
     //pagination
     var state = {
