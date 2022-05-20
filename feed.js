@@ -97,7 +97,7 @@ $(function() { // Document ready function
     function buildEvent(obj) {
         let html = '<div class="event" style="flex:0 0 '+(100/state.elementPerRow)+'%">';
         let image_url = (obj.image_url) ? obj.image_url: "https://events.umich.edu/images/default190@2x.png";
-        let image = '<a class = "image-link" href ='+obj.permalink+'><div class = "event-image" style="background-image: url('+image_url+');)"></div></a>';
+        let image = '<a class = "image-link" href ='+obj.permalink+'><div class = "event-image" style="background-image: url('+image_url+')"></div></a>';
         html += image;
         html += '<div class = "eventText">';
         let title = obj.event_title;
