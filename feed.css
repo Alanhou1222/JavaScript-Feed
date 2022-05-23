@@ -38,7 +38,7 @@
     line-height: 125%;
     text-decoration: none;
 }
-.event a{
+.event-link{
     font-size: 11px;
     color: #ffcb05;
     font-weight: bold;
@@ -64,10 +64,10 @@ a:hover{
     font-size: 12px;
     line-height: 1.42857;
 }
-.event h3{
+.event-title{
     margin: 0px;
 }
-.event h3 a{
+.event-title-link{
     font-size: 14px;
 }
 .event-image{

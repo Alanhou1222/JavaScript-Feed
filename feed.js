@@ -101,7 +101,7 @@ $(function() { // Document ready function
         html += image;
         html += '<div class = "eventText">';
         let title = obj.event_title;
-        html += '<h3><a href ='+obj.permalink+'>'+title+'</a></h3>';
+        html += '<h3 class = "event-title"><a href ='+obj.permalink+' class = "event-link event-title-link">'+title+'</a></h3>';
         let date = obj.date_start;
         html += '<ul><li><i class="fa fa-fw fa-calendar"></i><span> Date: '+date+'</span></li>';
         let links = obj.links;
@@ -112,7 +112,7 @@ $(function() { // Document ready function
             let defaultTitle = (links[i].url.split("://"))[1];
             defaultTitle = (defaultTitle.split('/'))[0];
             let text = links[i].title == null ? defaultTitle: links[i].title;
-            link = '<i class="fa fa-link fa-fw"></i><a href = '+links[i].url+'> '+text + '</a><br>'
+            link = '<i class="fa fa-link fa-fw"></i><a href = '+links[i].url+' class = "event-link"> '+text + '</a><br>'
             if(i % 2 == 0){
                 html += '<div class = container>';
             }
