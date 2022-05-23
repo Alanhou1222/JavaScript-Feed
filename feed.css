@@ -44,6 +44,7 @@
 .link-container{
     flex: 0 0 50%;
     max-width: 50%;
+    line-height: 100%;
 }
 .event a{
     font-size: 11px;
