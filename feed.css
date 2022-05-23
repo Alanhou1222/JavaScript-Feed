@@ -38,13 +38,6 @@
     line-height: 125%;
     text-decoration: none;
 }
-.event a{
-    font-size: 11px;
-    color: #ffcb05;
-    font-weight: bold;
-    line-height: 150%;
-    text-decoration: none;
-}
 .container a:hover{
     text-decoration: underline;
     
@@ -52,6 +45,13 @@
 .link-container{
     flex: 0 0 50%;
     max-width: 50%;
+}
+.event a{
+    font-size: 11px;
+    color: #ffcb05;
+    font-weight: bold;
+    line-height: 125%;
+    text-decoration: none;
 }
 .event ul{
     padding: 0px;
