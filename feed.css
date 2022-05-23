@@ -45,7 +45,7 @@
     line-height: 150%;
     text-decoration: none;
 }
-a:hover{
+.container a:hover{
     text-decoration: underline;
     
 }
@@ -55,7 +55,7 @@ a:hover{
 }
 .event ul{
     padding: 0px;
-    margin: 5px 0px 0px 0px;
+    margin: 0px;
     list-style-type: none;
     font-size: 12px;
 }
@@ -65,9 +65,11 @@ a:hover{
     line-height: 1.42857;
 }
 .event h3{
-    margin: 0px;
+    margin: 5px 0;
+    line-height: 100%;
 }
 .event h3 a{
+    line-height: 125%;
     font-size: 14px;
 }
 .event-image{
