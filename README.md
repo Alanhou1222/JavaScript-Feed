@@ -13,7 +13,7 @@ A HTML embeded event feed for [Happening @ Michigan](https://events.umich.edu/) 
 <div id="myfeed" url = "https://events.umich.edu/day/json?v=2"></div>
 <script src = "https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@latest/feed.js"></script>
 ```
-4. Replace the url attribute of '\<div id = "myfeed"\>' with the URL you just copied (default URL is for [New Events Today](https://events.umich.edu/day)).
+4. Replace the url attribute of \<div id = "myfeed"\> with the URL you just copied (default URL is for [New Events Today](https://events.umich.edu/day)).
 5. Paste the whole HTML code to where you want the event feed to be.
 6. You're all set!
 
