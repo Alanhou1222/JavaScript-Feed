@@ -2,6 +2,12 @@
 
 A HTML embedded event feed for [Happening @ Michigan](https://events.umich.edu/) coded with JavaScript.
 
+## Feature
+
+1. Show all the events from an user chosen page in [Happening @ Michigan](https://events.umich.edu/).
+2. Title linked to the specific event, date, location, and additional links of every event will be shown.
+3. A link to the user chosen page.
+
 ## Usage
 1. Find the event page to be fed to the event feed on [Happening @ Michigan](https://events.umich.edu/).
 2. Copy the URL of the json file (located on the bottom of the left side bar) for that page.
