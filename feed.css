@@ -76,6 +76,7 @@
     color: white;
     overflow: hidden;
     background-size: cover;
+    background-position: center center;
     text-align: center;
     height: 160px;
     position: relative;

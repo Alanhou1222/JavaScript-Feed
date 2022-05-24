@@ -4,22 +4,33 @@ $(function() { // Document ready function
     //pagination
     var state = {
         'page':1,
-        'elements': 8,
+        'elements': 7,
         'count': 0,
         'pageNum': 0,
         'window': 5,
         'feedSize': 0,
         'elementPerRow': 1,
     }
-    
+
     //copy of events data
     var events;
+
+    //placeholder
+    var placeholder = {
+        'image_url': "https://events.umich.edu/images/default-events-module.png",
+        'permalink': "https://events.umich.edu/",
+        'event_title': "See whats Happening @ Michigan",
+        'date_start': "",
+        'location_name': "",
+        'links': "",
+    }
 
     function pagination(){
         $('#myfeed').empty();
         let trimStart = (state.page - 1) * state.elements;
         let trimEnd = trimStart + state.elements;
         let trimmedData = events.slice(trimStart, trimEnd);
+        trimmedData.push(placeholder);
         for(i in trimmedData) { // loop though list of objects
             if(i%state.elementPerRow==0){
                 row = '<div class="eventRow container">';
@@ -27,6 +38,7 @@ $(function() { // Document ready function
             }
             let html = buildEvent(trimmedData[i]); // build html for object
             $('.eventRow').last().append(html); // append each object to the <div id="myfeed"></div>
+            
         }
         pageButton();
     }
@@ -79,7 +91,7 @@ $(function() { // Document ready function
             paginationHtml = '<div class = "pagination-container container"><div id="pagination-wrapper"></div></div>';
             $('#myfeed').after(paginationHtml);
             linkToHappening = url.replace("/json", "");
-            linkToHappeningHtml = '<div class = "container link-to-happening"><a href = "'+ linkToHappening+ '">View on Happening @ Michigan</a></div>'
+            linkToHappeningHtml = '<div class = "container link-to-happening"><a href = "'+ linkToHappening+ '">View the full page on Happening @ Michigan</a></div>'
             $('#myfeed').after(linkToHappeningHtml);
             events = data;
             state.count = events.length;
@@ -103,7 +115,10 @@ $(function() { // Document ready function
         let title = obj.event_title;
         html += '<h3><a href ='+obj.permalink+'>'+title+'</a></h3>';
         let date = obj.date_start;
-        html += '<ul><li><i class="fa fa-fw fa-calendar"></i><span> Date: '+date+'</span></li>';
+        if(date){
+            html += '<ul><li><i class="fa fa-fw fa-calendar"></i><span> Date: '+date+'</span></li>';
+        }
+        
         let links = obj.links;
         let location_name = obj.location_name;
         if(location_name)
@@ -125,5 +140,4 @@ $(function() { // Document ready function
 
         return html;
     }
-    
 });
