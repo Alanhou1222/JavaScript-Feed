@@ -31,6 +31,6 @@ A HTML embedded event feed for [Happening @ Michigan](https://events.umich.edu/)
 <script src="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@2.0.0/feed.js" integrity="sha384-YXgibgOU+r5tI/ISK3JGr2CGl/O2rQSPdoWeO6bY2forp48hygnggAr5gI5WyYSR" crossorigin="anonymous"></script>
 
 ```
-![Screen Shot](/images/eventFeedExample.png)
+![Screen Shot](/images/event-feed-example.png)
 
 
