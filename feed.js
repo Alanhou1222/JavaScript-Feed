@@ -33,11 +33,11 @@ $(function() { // Document ready function
         trimmedData.push(placeholder);
         for(i in trimmedData) { // loop though list of objects
             if(i%state.elementPerRow==0){
-                row = '<div class="eventRow container">';
+                row = '<div class="event-row container">';
                 $('#myfeed').append(row);
             }
             let html = buildEvent(trimmedData[i]); // build html for object
-            $('.eventRow').last().append(html); // append each object to the <div id="myfeed"></div>
+            $('.event-row').last().append(html); // append each object to the <div id="myfeed"></div>
             
         }
         pageButton();
@@ -111,7 +111,7 @@ $(function() { // Document ready function
         let image_url = (obj.image_url) ? obj.image_url: "https://events.umich.edu/images/default190@2x.png";
         let image = '<a class = "image-link" href ='+obj.permalink+'><div class = "event-image" style="background-image: url('+image_url+')"></div></a>';
         html += image;
-        html += '<div class = "eventText">';
+        html += '<div class = "event-text">';
         let title = obj.event_title;
         html += '<h3><a href ='+obj.permalink+'>'+title+'</a></h3>';
         let date = obj.date_start;
