@@ -1,5 +1,5 @@
 $(function() { // Document ready function
-    var url = $('#myfeed').attr('url'); // This is the URL for your JSON feed.
+    var url = $('#happening-feed').attr('url'); // This is the URL for your JSON feed.
     
     //pagination
     var state = {
@@ -26,7 +26,7 @@ $(function() { // Document ready function
     }
 
     function pagination(){
-        $('#myfeed').empty();
+        $('#event-feed').empty();
         let trimStart = (state.page - 1) * state.elements;
         let trimEnd = trimStart + state.elements;
         let trimmedData = events.slice(trimStart, trimEnd);
@@ -34,16 +34,16 @@ $(function() { // Document ready function
         for(i in trimmedData) { // loop though list of objects
             if(i%state.elementPerRow==0){
                 row = '<div class="event-row container">';
-                $('#myfeed').append(row);
+                $('#event-feed').append(row);
             }
             let html = buildEvent(trimmedData[i]); // build html for object
-            $('.event-row').last().append(html); // append each object to the <div id="myfeed"></div>
+            $('.event-row').last().append(html); // append each object to the <div id="happening-feed"></div>
             
         }
         pageButton();
     }
     $(window).resize(function() {
-        state.feedSize = $('#myfeed').width();
+        state.feedSize = $('#happening-feed').width();
         if(state.elementPerRow != Math.floor(state.feedSize/300)){
             state.elementPerRow = Math.floor(state.feedSize/300)>=1 ? Math.floor(state.feedSize/300): 1;
             pagination();
@@ -88,15 +88,17 @@ $(function() { // Document ready function
     $.ajax({
         url: url, // Set the URL for the json feed
         success: function(data) { // Run this if there is a successful call
-            paginationHtml = '<div class = "pagination-container container"><div id="pagination-wrapper"></div></div>';
-            $('#myfeed').after(paginationHtml);
+            eventFeedHtml = '<div id = "event-feed"></div>'
+            $('#happening-feed').append(eventFeedHtml);
             linkToHappening = url.replace("/json", "");
             linkToHappeningHtml = '<div class = "container link-to-happening"><a href = "'+ linkToHappening+ '">View the full page on Happening @ Michigan</a></div>'
-            $('#myfeed').after(linkToHappeningHtml);
+            $('#happening-feed').append(linkToHappeningHtml);
+            paginationHtml = '<div class = "pagination-container container"><div id="pagination-wrapper"></div></div>';
+            $('#happening-feed').append(paginationHtml);
             events = data;
             state.count = events.length;
             state.pageNum = Math.ceil(state.count/state.elements);
-            state.feedSize = $('#myfeed').width();
+            state.feedSize = $('#event-feed').width();
             state.elementPerRow = Math.floor(state.feedSize/300)>=1 ? Math.floor(state.feedSize/300): 1;
             if(events.length){ // if anything was returned
                 pagination();

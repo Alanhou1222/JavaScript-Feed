@@ -1,15 +1,25 @@
-#myfeed {
+#happening-feed {
     width: 100%;
 }
-#myfeed div {
+#happening-feed div {
     font-size: small;
     color: #fff;
+}
+.happening-feed a{
+    font-size: 11px;
+    color: #ffcb05;
+    font-weight: bold;
+    line-height: 125%;
+    text-decoration: none;
+}
+.happening-feed a:hover{
+    text-decoration: underline;
 }
 .container{
     display: flex;
     flex-wrap: wrap;
 }
-.eventRow{
+.event-row{
     contain: layout style inline-size;
 }
 .event{
@@ -32,26 +42,11 @@
 }
 .link-to-happening a{
     font-size: 14px;
-    color: #ffcb05;
-    font-weight: bold;
-    line-height: 125%;
-    text-decoration: none;
-}
-.container a:hover{
-    text-decoration: underline;
-    
 }
 .link-container{
     flex: 0 0 50%;
     max-width: 50%;
     line-height: 100%;
-}
-.event a{
-    font-size: 11px;
-    color: #ffcb05;
-    font-weight: bold;
-    line-height: 125%;
-    text-decoration: none;
 }
 .event ul{
     padding: 0px;
@@ -69,7 +64,6 @@
     line-height: 50%;
 }
 .event h3 a{
-    line-height: 125%;
     font-size: 14px;
 }
 .event-image{
