@@ -55,6 +55,23 @@ $(function() { // Document ready function
             pagination();
         }
     });
+
+    $(window).click(function(event){
+        if(event.target == $('#modal')[0]){
+            $('#modal').hide();
+        }
+    });
+
+    // When the user clicks the button, open the modal 
+    $("#modal-button").click(function() {
+        $('#modal').show();
+    });
+    
+    // When the user clicks on <span> (x), close the modal
+    $("#modal-close").click(function() {
+        $('#modal').hide();
+    });
+    
     function pageButton(){
         $('#pagination-wrapper').empty();
         let html = '';
@@ -160,4 +177,5 @@ $(function() { // Document ready function
 
         return html;
     }
+
 });
