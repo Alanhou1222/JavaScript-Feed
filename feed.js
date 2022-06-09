@@ -12,6 +12,12 @@ $(function() { // Document ready function
         'elementPerRow': 1,
     }
 
+    //configuration
+    var config = {
+        'pop-up': false,
+        'wide': false,
+    }
+
     //copy of events data
     var events;
 
@@ -88,7 +94,19 @@ $(function() { // Document ready function
     $.ajax({
         url: url, // Set the URL for the json feed
         success: function(data) { // Run this if there is a successful call
-            eventFeedHtml = '<div id = "event-feed"></div>'
+            var classList = $('#happening-feed').attr("class");
+            var classListArray =  classList.split(/\s+/);
+            classListArray.forEach(element => {
+                if(element == "pop-up"){
+                    config["pop-up"] = true;
+                }
+                else if(element == "wide"){
+                    config["wide"] = true;
+                }
+            });
+            console.log(config);
+            
+            eventFeedHtml = '<div id = "event-feed"></div>';
             $('#happening-feed').append(eventFeedHtml);
             linkToHappening = url.replace("/json", "");
             linkToHappeningHtml = '<div class = "container link-to-happening"><a href = "'+ linkToHappening+ '">View the full page on Happening @ Michigan</a></div>'
