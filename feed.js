@@ -34,23 +34,27 @@ $(function() { // Document ready function
     function pagination(){
         $('#event-feed').empty();
         let trimStart = (state.page - 1) * state.elements;
-        let trimEnd = trimStart + state.elements;
-        let trimmedData = events.slice(trimStart, trimEnd);
-        trimmedData.push(placeholder);
-        for(i in trimmedData) { // loop though list of objects
-            if(i%state.elementPerRow==0){
+        let trimEnd = (trimStart + state.elements < state.count) ? trimStart + state.elements: state.count;
+        for(let i = trimStart; i <= trimEnd; i++) { // loop though list of objects
+            if((i-trimStart)%state.elementPerRow==0){
                 row = '<div class="event-row container">';
                 $('#event-feed').append(row);
             }
-            let html = buildEvent(trimmedData[i]); // build html for object
+            if(i == trimEnd){
+                html = buildEvent(placeholder,-1);
+            }
+            else{
+                html = buildEvent(events[i],i); // build html for object
+            }
             $('.event-row').last().append(html); // append each object to the <div id="happening-feed"></div>
-            
         }
         $(".modal-button").click(function() {
             $('#modal').show();
+            console.log($(this).val());
         });
         pageButton();
     }
+
     $(window).resize(function() {
         state.feedSize = $('#happening-feed').width();
         if(state.elementPerRow != Math.floor(state.feedSize/300)){
@@ -133,7 +137,7 @@ $(function() { // Document ready function
     });
 
     // create html for object.
-    function buildEvent(obj) {
+    function buildEvent(obj,count) {
         let html = '<div class="event" style="flex:0 0 '+(100/state.elementPerRow)+'%">';
         let image_url = (obj.image_url) ? obj.image_url: "https://events.umich.edu/images/default190@2x.png";
         let image = '<a class = "image-link" href ='+obj.permalink+'><div class = "event-image" style="background-image: url('+image_url+')"></div></a>';
@@ -165,9 +169,8 @@ $(function() { // Document ready function
         }
         html += '</div>';
         // When the user clicks the buttons, open the modal 
-        if(config["pop-up"]) html += '<button class = "modal-button">Read More</button>';
+        if(config["pop-up"]&&count != -1) html += '<button value = "'+count+'" class = "modal-button">Read More</button>';
         html += '</div>';
-
         return html;
     }
 

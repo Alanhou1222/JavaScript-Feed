@@ -113,7 +113,7 @@
     -webkit-animation-name: fadeIn; /* Fade in the background */
     -webkit-animation-duration: 0.4s;
     animation-name: fadeIn;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
   }
 
   /* Modal Content */
@@ -121,11 +121,14 @@
     position: fixed;
     bottom: 0;
     background-color: #fefefe;
-    width: 100%;
+    width: 80%;
+    height: 80%;
+    bottom: 10%;
+    left: 10%;
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
 }
 
 .modal-button{
@@ -174,13 +177,13 @@
 
 /* Add Animation */
 @-webkit-keyframes slideIn {
-    from {bottom: -300px; opacity: 0} 
-    to {bottom: 0; opacity: 1}
+    from {bottom: -80%; opacity: 0} 
+    to {bottom: 5%; opacity: 1}
 }
 
 @keyframes slideIn {
-    from {bottom: -300px; opacity: 0}
-    to {bottom: 0; opacity: 1}
+    from {bottom: -80%; opacity: 0}
+    to {bottom: 5%; opacity: 1}
 }
 
 @-webkit-keyframes fadeIn {
