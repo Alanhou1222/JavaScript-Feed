@@ -46,6 +46,9 @@ $(function() { // Document ready function
             $('.event-row').last().append(html); // append each object to the <div id="happening-feed"></div>
             
         }
+        $(".modal-button").click(function() {
+            $('#modal').show();
+        });
         pageButton();
     }
     $(window).resize(function() {
@@ -60,11 +63,6 @@ $(function() { // Document ready function
         if(event.target == $('#modal')[0]){
             $('#modal').hide();
         }
-    });
-
-    // When the user clicks the button, open the modal 
-    $("#modal-button").click(function() {
-        $('#modal').show();
     });
     
     // When the user clicks on <span> (x), close the modal
@@ -114,15 +112,9 @@ $(function() { // Document ready function
             var classList = $('#happening-feed').attr("class");
             var classListArray =  classList.split(/\s+/);
             classListArray.forEach(element => {
-                if(element == "pop-up"){
-                    config["pop-up"] = true;
-                }
-                else if(element == "wide"){
-                    config["wide"] = true;
-                }
+                if(element == "pop-up") config["pop-up"] = true;
+                else if(element == "wide") config["wide"] = true;
             });
-            console.log(config);
-            
             eventFeedHtml = '<div id = "event-feed"></div>';
             $('#happening-feed').append(eventFeedHtml);
             linkToHappening = url.replace("/json", "");
@@ -135,9 +127,7 @@ $(function() { // Document ready function
             state.pageNum = Math.ceil(state.count/state.elements);
             state.feedSize = $('#event-feed').width();
             state.elementPerRow = Math.floor(state.feedSize/300)>=1 ? Math.floor(state.feedSize/300): 1;
-            if(events.length){ // if anything was returned
-                pagination();
-            }
+            if(events.length) pagination();
             pageButton();
         }
     });
@@ -158,7 +148,7 @@ $(function() { // Document ready function
         
         let links = obj.links;
         let location_name = obj.location_name;
-        if(location_name)
+        if(location_name) 
             html+= '<li><i class="fa fa-location-arrow fa-fw"></i> Location: '+location_name+'</li></ul>';
         for(let i = 0; i < Object.keys(links).length; i++){
             let defaultTitle = (links[i].url.split("://"))[1];
@@ -169,11 +159,14 @@ $(function() { // Document ready function
                 html += '<div class = container>';
             }
             html+= '<div class = "link-container">'+link+'</div>';
-            if(i % 2 != 0){
+            if(i % 2 != 0 || i == Object.keys(links).length-1){
                 html += '</div>';
             }
         }
-        html += '</div></div>';
+        html += '</div>';
+        // When the user clicks the buttons, open the modal 
+        if(config["pop-up"]) html += '<button class = "modal-button">Read More</button>';
+        html += '</div>';
 
         return html;
     }
