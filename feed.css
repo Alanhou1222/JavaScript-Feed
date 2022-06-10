@@ -1,72 +1,90 @@
+:root {
+    --dark-blue: #00274c;
+    --blue: #007bff;
+    --maize: #ffcb05;
+    --gray: #333333;
+}
+
 #happening-feed {
     width: 100%;
 }
-#happening-feed div {
-    font-size: small;
-    color: #fff;
-}
+
 .happening-feed a{
-    font-size: 11px;
-    color: #ffcb05;
+    color: var(--maize);
     font-weight: bold;
     line-height: 125%;
     text-decoration: none;
 }
+
 .happening-feed a:hover{
     text-decoration: underline;
 }
+
 .container{
     display: flex;
     flex-wrap: wrap;
 }
+
 .event-row{
     contain: layout style inline-size;
 }
+
 .event{
     box-sizing: border-box;
     border: #fff solid 5px;
-    background: rgba(51, 51, 51, 1);
+    background: var(--gray);
     padding: 0px;
     min-height: 300px;
     position: relative;
+    color: #fff;
 }
+
 .event-text{
-    background: rgba(51, 51, 51, 1);
+    background: var(--gray);
     padding: 5px;
 }
+
 .link-to-happening{
     border: #fff solid 5px;
-    background: rgba(51, 51, 51, 1);
+    background: var(--gray);
     padding: 10px;
     justify-content: center;
     margin-bottom: 5px;
 }
+
 .link-to-happening a{
     font-size: 14px;
 }
+
 .link-container{
     flex: 0 0 50%;
     max-width: 50%;
     line-height: 100%;
+    font-size: 11px;
 }
+
 .event ul{
     padding: 0px;
     margin: 0px;
     list-style-type: none;
     font-size: 12px;
 }
+
 .event li{
     list-style-type: none;
     font-size: 12px;
     line-height: 1.42857;
 }
+
 .event h3{
     margin: 5px 0;
     line-height: 50%;
 }
+
 .event h3 a{
     font-size: 14px;
 }
+
 .event-image{
     color: white;
     overflow: hidden;
@@ -76,24 +94,29 @@
     height: 160px;
     position: relative;
 }
+
 .fa-link{
-    color: #ffcb05;
+    color: var(--maize);
 }
+
 .pagination-container{
     justify-content: center;
 }
+
 .page-button{
     padding: 15px 15px;
     text-align: center;
     border-radius: 4px;
-    background-color: #ffcb05;
+    background-color: var(--maize);
     font-size: 16px;
     transition-duration: 0.4s;
 }
+
 .page-button:hover {
     background-color: #ffe205;
     cursor: pointer;
 }
+
 .current-page{
     background-color: #007bff;
 }
@@ -116,7 +139,7 @@
     animation-duration: 0.4s;
   }
 
-  /* Modal Content */
+/* Modal Content */
 .modal-content {
     position: fixed;
     bottom: 0;
@@ -133,12 +156,12 @@
 
 .modal-button{
     position: absolute;
-    right:    5px;
-    bottom:   5px;
+    right: 5px;
+    bottom: 5px;
     border: none;
     text-decoration: none;
     background-color: transparent;
-    color: #ffcb05;
+    color: var(--maize);
     font-family: inherit;
 }
 
@@ -156,25 +179,58 @@
 }
   
 .close:hover, .close:focus {
-    color: #000;
+    color: var(--maize);
     text-decoration: none;
     cursor: pointer;
 }
   
 .modal-header {
     padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
+    background-color: var(--dark-blue);
+    color: var(--maize);
+    margin-bottom: 20px;
 }
   
-.modal-body {padding: 2px 16px;}
-  
-.modal-footer {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
+.modal-body {
+    padding: 16px;
 }
 
+.modal-row{
+    display: flex;
+}
+
+.modal-main{
+    width: 70%;
+    padding: 0 5px 0 5px;
+    line-height: 140%;
+}
+
+.modal-text{
+    color: var(--dark-blue);
+}
+
+.modal-side{
+    width: 30%;
+}
+
+.modal-image{
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    text-align: center;
+    width: 100%;
+    min-height: 200px;
+    position: relative;
+}
+
+.small-title{
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+.modal-link{
+    font-size: 14px;
+}
 /* Add Animation */
 @-webkit-keyframes slideIn {
     from {bottom: -80%; opacity: 0} 

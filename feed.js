@@ -49,6 +49,7 @@ $(function() { // Document ready function
             $('.event-row').last().append(html); // append each object to the <div id="happening-feed"></div>
         }
         $(".modal-button").click(function() {
+
             $('#modal').show();
             console.log($(this).val());
         });
@@ -119,6 +120,8 @@ $(function() { // Document ready function
                 if(element == "pop-up") config["pop-up"] = true;
                 else if(element == "wide") config["wide"] = true;
             });
+            // modalHtml = '<div id="modal" class="modal"></div>';
+            // $('#happening-feed').after(modalHtml);
             eventFeedHtml = '<div id = "event-feed"></div>';
             $('#happening-feed').append(eventFeedHtml);
             linkToHappening = url.replace("/json", "");
@@ -153,7 +156,7 @@ $(function() { // Document ready function
         let links = obj.links;
         let location_name = obj.location_name;
         if(location_name) 
-            html+= '<li><i class="fa fa-location-arrow fa-fw"></i> Location: '+location_name+'</li></ul>';
+            html+= '<li><i class="fa fa-location-arrow fa-fw"></i><span> Location: '+location_name+'</span></li></ul>';
         for(let i = 0; i < Object.keys(links).length; i++){
             let defaultTitle = (links[i].url.split("://"))[1];
             defaultTitle = (defaultTitle.split('/'))[0];
@@ -174,4 +177,7 @@ $(function() { // Document ready function
         return html;
     }
 
+    function buildModal(obj){
+        
+    }
 });
