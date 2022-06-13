@@ -63,25 +63,25 @@
     font-size: 11px;
 }
 
-.event ul{
+.event ul, .event-wide ul{
     padding: 0px;
     margin: 0px;
     list-style-type: none;
     font-size: 12px;
 }
 
-.event li{
+.event li, .event-wide li{
     list-style-type: none;
     font-size: 12px;
     line-height: 1.42857;
 }
 
-.event h3{
+.event h3, .event-wide h3{
     margin: 5px 0;
     line-height: 50%;
 }
 
-.event h3 a{
+.event h3 a, .event-wide h3 a{
     font-size: 14px;
 }
 
@@ -119,6 +119,36 @@
 
 .current-page{
     background-color: #007bff;
+}
+
+/* wide settings start here*/
+
+.event-wide{
+    box-sizing: border-box;
+    border: #fff solid 5px;
+    background: var(--gray);
+    padding: 0px;
+    min-height: 160px;
+    position: relative;
+    color: #fff;
+}
+
+.event-text-wide{
+    background: var(--gray);
+    padding: 5px;
+}
+
+.event-image-wide{
+    color: white;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    text-align: center;
+    height: 160px;
+    position: relative;
+    width: 30%;
+    float: left;
+    margin-right: 10px;
 }
 
 /* The Modal (background) */
@@ -233,6 +263,7 @@
     margin-right: 10px;
     margin-bottom: 10px;
 }
+
 /* media query for modal*/
 @media screen and (max-width: 800px) {
     .modal-body{

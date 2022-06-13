@@ -1,7 +1,7 @@
 $(function() { // Document ready function
     var url = $('#happening-feed').attr('url'); // This is the URL for your JSON feed.
     
-    //pagination
+    //pagination and modal
     var state = {
         'page':1,
         'elements': 7,
@@ -17,6 +17,11 @@ $(function() { // Document ready function
     var config = {
         'pop-up': false,
         'wide': false,
+    }
+
+    //params
+    var params = {
+        'elementWidth': 300,
     }
 
     //copy of events data
@@ -42,6 +47,7 @@ $(function() { // Document ready function
                 if(element == "pop-up") config["pop-up"] = true;
                 else if(element == "wide") config["wide"] = true;
             });
+            if(config["wide"]) params["elementWidth"] = 480;
             eventFeedHtml = '<div id = "event-feed"></div>';
             $('#happening-feed').append(eventFeedHtml);
             linkToHappening = url.replace("/json", "");
@@ -61,7 +67,7 @@ $(function() { // Document ready function
             state.count = events.length;
             state.pageNum = Math.ceil(state.count/state.elements);
             state.feedSize = $('#event-feed').width();
-            state.elementPerRow = Math.floor(state.feedSize/300)>=1 ? Math.floor(state.feedSize/300): 1;
+            state.elementPerRow = Math.floor(state.feedSize/params["elementWidth"])>=1 ? Math.floor(state.feedSize/params["elementWidth"]): 1;
             if(events.length) pagination();
             pageButton();
         }
@@ -95,8 +101,8 @@ $(function() { // Document ready function
 
     $(window).resize(function() {
         state.feedSize = $('#happening-feed').width();
-        if(state.elementPerRow != Math.floor(state.feedSize/300)){
-            state.elementPerRow = Math.floor(state.feedSize/300)>=1 ? Math.floor(state.feedSize/300): 1;
+        if(state.elementPerRow != Math.floor(state.feedSize/params["elementWidth"])){
+            state.elementPerRow = Math.floor(state.feedSize/params["elementWidth"])>=1 ? Math.floor(state.feedSize/params["elementWidth"]): 1;
             pagination();
         }
         buildModal(events[state['currentEvent']]);
@@ -146,11 +152,13 @@ $(function() { // Document ready function
     
     // create html for object.
     function buildEvent(obj,count) {
-        let html = '<div class="event" style="flex:0 0 '+(100/state.elementPerRow)+'%">';
+        let wide = "";
+        if(config['wide']) wide = "-wide";
+        let html = '<div class="event'+wide+'" style="flex:0 0 '+(100/state.elementPerRow)+'%">';
         let image_url = (obj.image_url) ? obj.image_url: "https://events.umich.edu/images/default190@2x.png";
-        let image = '<a class = "image-link" href ='+obj.permalink+'><div class = "event-image" style="background-image: url('+image_url+')"></div></a>';
+        let image = '<a class = "image-link" href ='+obj.permalink+'><div class = "event-image'+wide+'" style="background-image: url('+image_url+')"></div></a>';
         html += image;
-        html += '<div class = "event-text">';
+        html += '<div class = "event-text'+wide+'">';
         let title = obj.event_title;
         html += '<h3><a href ='+obj.permalink+'>'+title+'</a></h3>';
         let date = obj.date_start;
