@@ -10,6 +10,7 @@ $(function() { // Document ready function
         'window': 5,
         'feedSize': 0,
         'elementPerRow': 1,
+        'currentEvent': 1,
     }
 
     //configuration
@@ -48,12 +49,14 @@ $(function() { // Document ready function
             $('#happening-feed').append(linkToHappeningHtml);
             paginationHtml = '<div class = "pagination-container container"><div id="pagination-wrapper"></div></div>';
             $('#happening-feed').append(paginationHtml);
-            modalHtml = '<div id="modal" class="modal"><div class="modal-content"><div id = "modal-header" class="modal-header"><span id = "modal-close" class="close">&times;</span></div><div id = "modal-body" class="modal-body modal-row"></div></div></div>';
-            $('#happening-feed').append(modalHtml);
-            // When the user clicks on <span> (x), close the modal
-            $('#modal-close').on('click', function(){
-                $('#modal').hide();
-            });
+            if(config['pop-up']){
+                modalHtml = '<div id="modal" class="modal"><div class="modal-content"><div id = "modal-header" class="modal-header"><span id = "modal-close" class="close">&times;</span></div><div id = "modal-body" class="modal-body modal-row"></div></div></div>';
+                $('#happening-feed').append(modalHtml);
+                // When the user clicks on <span> (x), close the modal
+                $('#modal-close').on('click', function(){
+                    $('#modal').hide();
+                });
+            }
             events = data;
             state.count = events.length;
             state.pageNum = Math.ceil(state.count/state.elements);
@@ -84,8 +87,8 @@ $(function() { // Document ready function
         }
         $(".modal-button").click(function() {
             $('#modal').show();
-            console.log($(this).val());
-            buildModal(events[$(this).val()]);
+            state['currentEvent'] = $(this).val();
+            buildModal(events[state['currentEvent']]);
         });
         pageButton();
     }
@@ -96,6 +99,7 @@ $(function() { // Document ready function
             state.elementPerRow = Math.floor(state.feedSize/300)>=1 ? Math.floor(state.feedSize/300): 1;
             pagination();
         }
+        buildModal(events[state['currentEvent']]);
     });
 
     $(window).click(function(event){
@@ -181,30 +185,39 @@ $(function() { // Document ready function
     function buildModal(obj){
         $('#modal-header h2, h4').remove();
         $('#modal-body').empty();
+        $('#modal-event-link').remove();
         titles = '<h2>'+obj.event_title+'</h2>';
         if(obj.event_subtitle != "") titles += '<h4>'+obj.event_subtitle+'</h4>';
         $('#modal-header').append(titles);
-        html = '<div class = "modal-main"><div class= "modal-text">';
-        html += obj.description;
-        html += '</div><hr><ul><li><i class="fa fa-fw fa-calendar"></i>';
-        html += '<span>'+obj.date_start+'</span></li>';
-        if(obj.location_name) html += '<li><i class="fa fa-location-arrow fa-fw"></i><span>Location: '+obj.location_name+'</span></li>';
-        html += '</ul></div>';
-        html += '<div class = "modal-side">';
+        html = '<div class = "modal-side">';
         let image_url = (obj.image_url) ? obj.image_url: "https://events.umich.edu/images/default190@2x.png";
         html += '<div class = "modal-image" style="background-image: url('+image_url+')"></div>';
+        if($( window ).width() > 800) html += buildModalLinks(obj);
+        html += '</div>';
+        html += '<div class = "modal-main"><div class= "modal-text">';
+        html += obj.description;
+        html += '</div><hr><ul><li><i class="fa fa-fw fa-calendar"></i>';
+        html += '<span> '+obj.date_start+'</span></li>';
+        if(obj.location_name) html += '<li><i class="fa fa-location-arrow fa-fw"></i><span> Location: '+obj.location_name+'</span></li>';
+        html += '</ul></div>';
+        if($( window ).width() <= 800) html += buildModalLinks(obj);
+        $('#modal-body').append(html);
+        $('#modal-body').after('<a id = "modal-event-link" href ='+obj.permalink+'>Go To Event Page'+'</a>');
+    }
+
+    function buildModalLinks(obj){
         let links = obj.links;
+        linkHtml = "";
         if(Object.keys(links).length > 0){
-            html += '<div class = "small-title">related link</div>';
+            linkHtml += '<div class = "small-title">related link</div>';
             for(let i = 0; i < Object.keys(links).length; i++){
                 let defaultTitle = (links[i].url.split("://"))[1];
                 defaultTitle = (defaultTitle.split('/'))[0];
                 let text = links[i].title == null ? defaultTitle: links[i].title;
                 link = '<i class="fa fa-link fa-fw"></i><a class = "modal-link" href = '+links[i].url+'> '+text + '</a><br>'
-                html+= link;
+                linkHtml+= link;
             }
         }
-        html += '</div>';
-        $('#modal-body').append(html);
+        return linkHtml;
     }
 });

@@ -5,7 +5,7 @@
     --gray: #333333;
 }
 
-#happening-feed {
+.happening-feed {
     width: 100%;
 }
 
@@ -142,16 +142,12 @@
 /* Modal Content */
 .modal-content {
     position: fixed;
-    bottom: 0;
     background-color: #fefefe;
     width: 80%;
     height: 80%;
-    bottom: 10%;
+    top: 10%;
     left: 10%;
-    -webkit-animation-name: slideIn;
-    -webkit-animation-duration: 0.4s;
-    animation-name: slideIn;
-    animation-duration: 0.4s;
+    overflow: scroll;
 }
 
 .modal-button{
@@ -188,7 +184,6 @@
     padding: 2px 16px;
     background-color: var(--dark-blue);
     color: var(--maize);
-    margin-bottom: 20px;
 }
   
 .modal-body {
@@ -201,7 +196,7 @@
 
 .modal-main{
     width: 70%;
-    padding: 0 10px 0 5px;
+    padding: 0 5px 0 15px;
     line-height: 140%;
 }
 
@@ -231,17 +226,29 @@
 .modal-link{
     font-size: 14px;
 }
+
+#modal-event-link{
+    font-size: 16px;
+    float:right;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+/* media query for modal*/
+@media screen and (max-width: 800px) {
+    .modal-body{
+        display: block;
+    }
+    .modal-main{
+        width: 100%;
+        margin-top: 10px;
+        padding: 0px;
+    }
+    .modal-side{
+        width: 100%;
+    }
+}
+
 /* Add Animation */
-@-webkit-keyframes slideIn {
-    from {bottom: -80%; opacity: 0} 
-    to {bottom: 5%; opacity: 1}
-}
-
-@keyframes slideIn {
-    from {bottom: -80%; opacity: 0}
-    to {bottom: 5%; opacity: 1}
-}
-
 @-webkit-keyframes fadeIn {
     from {opacity: 0} 
     to {opacity: 1}
