@@ -31,6 +31,40 @@ $(function() { // Document ready function
         'links': "",
     }
 
+    // Run an ajax call. The documentation is here : http://api.jquery.com/jquery.ajax/
+    $.ajax({
+        url: url, // Set the URL for the json feed
+        success: function(data) { // Run this if there is a successful call
+            var classList = $('#happening-feed').attr("class");
+            var classListArray =  classList.split(/\s+/);
+            classListArray.forEach(element => {
+                if(element == "pop-up") config["pop-up"] = true;
+                else if(element == "wide") config["wide"] = true;
+            });
+            eventFeedHtml = '<div id = "event-feed"></div>';
+            $('#happening-feed').append(eventFeedHtml);
+            linkToHappening = url.replace("/json", "");
+            linkToHappeningHtml = '<div class = "container link-to-happening"><a href = "'+ linkToHappening+ '">View the full page on Happening @ Michigan</a></div>'
+            $('#happening-feed').append(linkToHappeningHtml);
+            paginationHtml = '<div class = "pagination-container container"><div id="pagination-wrapper"></div></div>';
+            $('#happening-feed').append(paginationHtml);
+            modalHtml = '<div id="modal" class="modal"><div class="modal-content"><div id = "modal-header" class="modal-header"><span id = "modal-close" class="close">&times;</span></div><div id = "modal-body" class="modal-body modal-row"></div></div></div>';
+            $('#happening-feed').append(modalHtml);
+            // When the user clicks on <span> (x), close the modal
+            $('#modal-close').on('click', function(){
+                $('#modal').hide();
+            });
+            events = data;
+            state.count = events.length;
+            state.pageNum = Math.ceil(state.count/state.elements);
+            state.feedSize = $('#event-feed').width();
+            state.elementPerRow = Math.floor(state.feedSize/300)>=1 ? Math.floor(state.feedSize/300): 1;
+            if(events.length) pagination();
+            pageButton();
+        }
+    });
+
+
     function pagination(){
         $('#event-feed').empty();
         let trimStart = (state.page - 1) * state.elements;
@@ -49,9 +83,9 @@ $(function() { // Document ready function
             $('.event-row').last().append(html); // append each object to the <div id="happening-feed"></div>
         }
         $(".modal-button").click(function() {
-
             $('#modal').show();
             console.log($(this).val());
+            buildModal(events[$(this).val()]);
         });
         pageButton();
     }
@@ -68,11 +102,6 @@ $(function() { // Document ready function
         if(event.target == $('#modal')[0]){
             $('#modal').hide();
         }
-    });
-    
-    // When the user clicks on <span> (x), close the modal
-    $("#modal-close").click(function() {
-        $('#modal').hide();
     });
     
     function pageButton(){
@@ -110,35 +139,7 @@ $(function() { // Document ready function
         })
         
     }
-    // Run an ajax call. The documentation is here : http://api.jquery.com/jquery.ajax/
-    $.ajax({
-        url: url, // Set the URL for the json feed
-        success: function(data) { // Run this if there is a successful call
-            var classList = $('#happening-feed').attr("class");
-            var classListArray =  classList.split(/\s+/);
-            classListArray.forEach(element => {
-                if(element == "pop-up") config["pop-up"] = true;
-                else if(element == "wide") config["wide"] = true;
-            });
-            // modalHtml = '<div id="modal" class="modal"></div>';
-            // $('#happening-feed').after(modalHtml);
-            eventFeedHtml = '<div id = "event-feed"></div>';
-            $('#happening-feed').append(eventFeedHtml);
-            linkToHappening = url.replace("/json", "");
-            linkToHappeningHtml = '<div class = "container link-to-happening"><a href = "'+ linkToHappening+ '">View the full page on Happening @ Michigan</a></div>'
-            $('#happening-feed').append(linkToHappeningHtml);
-            paginationHtml = '<div class = "pagination-container container"><div id="pagination-wrapper"></div></div>';
-            $('#happening-feed').append(paginationHtml);
-            events = data;
-            state.count = events.length;
-            state.pageNum = Math.ceil(state.count/state.elements);
-            state.feedSize = $('#event-feed').width();
-            state.elementPerRow = Math.floor(state.feedSize/300)>=1 ? Math.floor(state.feedSize/300): 1;
-            if(events.length) pagination();
-            pageButton();
-        }
-    });
-
+    
     // create html for object.
     function buildEvent(obj,count) {
         let html = '<div class="event" style="flex:0 0 '+(100/state.elementPerRow)+'%">';
@@ -178,6 +179,32 @@ $(function() { // Document ready function
     }
 
     function buildModal(obj){
-        
+        $('#modal-header h2, h4').remove();
+        $('#modal-body').empty();
+        titles = '<h2>'+obj.event_title+'</h2>';
+        if(obj.event_subtitle != "") titles += '<h4>'+obj.event_subtitle+'</h4>';
+        $('#modal-header').append(titles);
+        html = '<div class = "modal-main"><div class= "modal-text">';
+        html += obj.description;
+        html += '</div><hr><ul><li><i class="fa fa-fw fa-calendar"></i>';
+        html += '<span>'+obj.date_start+'</span></li>';
+        if(obj.location_name) html += '<li><i class="fa fa-location-arrow fa-fw"></i><span>Location: '+obj.location_name+'</span></li>';
+        html += '</ul></div>';
+        html += '<div class = "modal-side">';
+        let image_url = (obj.image_url) ? obj.image_url: "https://events.umich.edu/images/default190@2x.png";
+        html += '<div class = "modal-image" style="background-image: url('+image_url+')"></div>';
+        let links = obj.links;
+        if(Object.keys(links).length > 0){
+            html += '<div class = "small-title">related link</div>';
+            for(let i = 0; i < Object.keys(links).length; i++){
+                let defaultTitle = (links[i].url.split("://"))[1];
+                defaultTitle = (defaultTitle.split('/'))[0];
+                let text = links[i].title == null ? defaultTitle: links[i].title;
+                link = '<i class="fa fa-link fa-fw"></i><a class = "modal-link" href = '+links[i].url+'> '+text + '</a><br>'
+                html+= link;
+            }
+        }
+        html += '</div>';
+        $('#modal-body').append(html);
     }
 });
