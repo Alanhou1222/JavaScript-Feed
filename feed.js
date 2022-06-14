@@ -53,6 +53,9 @@ $(function() { // Document ready function
                     params["elementWidth"] = 480;
                 }
             });
+            searchHtml = '<div class = "feed-search"><div class = "search-content"><h4>Search Events</h4>'
+            searchHtml += '<input id= "feed-input" class = "feed-input" type="text" placeholder="Search.."></input></div></div>';
+            $('#happening-feed').append(searchHtml);
             eventFeedHtml = '<div id = "event-feed"></div>';
             $('#happening-feed').append(eventFeedHtml);
             linkToHappening = url.replace("/json", "");
@@ -73,9 +76,10 @@ $(function() { // Document ready function
             state.feedSize = $('#event-feed').width();
             state.elementPerRow = Math.floor(state.feedSize/params["elementWidth"])>=1 ? Math.floor(state.feedSize/params["elementWidth"]): 1;
             pagination();
-            $("#feedInput").on("keyup", function() {
+            $("#feed-input").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
                 showEvents = events.filter(obj => obj.event_title.toLowerCase().includes(value)||obj.building_name.toLowerCase().includes(value));
+                state['page'] = 1;
                 pagination();
             });
         }
@@ -84,7 +88,7 @@ $(function() { // Document ready function
 
     function pagination(){
         state.count = showEvents.length;
-        state.pageNum = Math.ceil(state.count/state.elements);
+        state.pageNum = (Math.ceil(state.count/state.elements) == 0) ? 1:Math.ceil(state.count/state.elements);
         $('#event-feed').empty();
         let trimStart = (state.page - 1) * state.elements;
         let trimEnd = (trimStart + state.elements < state.count) ? trimStart + state.elements: state.count;
@@ -100,6 +104,10 @@ $(function() { // Document ready function
                 html = buildEvent(showEvents[i],i); // build html for object
             }
             $('.event-row').last().append(html); // append each object to the <div id="happening-feed"></div>
+        }
+        if(state.count == 0){
+            html = "<h3>No events found. Please modify your search and try again</h3>";
+            $('.event-row').last().append(html);
         }
         $(".modal-button").click(function() {
             $('#modal').show();
@@ -199,7 +207,7 @@ $(function() { // Document ready function
     }
 
     function buildModal(obj){
-        $('#modal-header h2, h4').remove();
+        $('#modal-header h2, #modal-header h4').remove();
         $('#modal-body').empty();
         $('#modal-event-link').remove();
         titles = '<h2>'+obj.event_title+'</h2>';
@@ -218,7 +226,7 @@ $(function() { // Document ready function
         html += '</ul></div>';
         if($( window ).width() <= 800) html += buildModalLinks(obj);
         $('#modal-body').append(html);
-        $('#modal-body').after('<a id = "modal-event-link" href ='+obj.permalink+'>Go To Event Page'+'</a>');
+        $('#modal-body').after('<a id = "modal-event-link" href ='+obj.permalink+'>View on Happening @ Michigan'+'</a>');
     }
 
     function buildModalLinks(obj){

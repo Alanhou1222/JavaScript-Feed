@@ -232,6 +232,7 @@
 
 .modal-text{
     color: var(--dark-blue);
+    overflow-wrap: break-word;
 }
 
 .modal-side{
@@ -260,7 +261,7 @@
 #modal-event-link{
     font-size: 16px;
     float:right;
-    margin-right: 10px;
+    margin-right: 16px;
     margin-bottom: 10px;
 }
 
@@ -277,6 +278,32 @@
     .modal-side{
         width: 100%;
     }
+}
+
+/*search bar*/
+.feed-search{
+    background-image: url(images/search.jpg);
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-content{
+    height: 50%;
+    width: 80%;
+    padding: 5px 20px 20px 15px;
+    background: rgba(255,255,255,.7);
+    border-radius: 10px;
+    position: relative;
+}
+
+.feed-input{
+    height: 30%;
+    width: 100%;
 }
 
 /* Add Animation */
