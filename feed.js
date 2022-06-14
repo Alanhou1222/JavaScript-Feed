@@ -22,10 +22,12 @@ $(function() { // Document ready function
     //params
     var params = {
         'elementWidth': 300,
+        'wide': "",
     }
 
     //copy of events data
     var events;
+    var showEvents;
 
     //placeholder
     var placeholder = {
@@ -45,9 +47,12 @@ $(function() { // Document ready function
             var classListArray =  classList.split(/\s+/);
             classListArray.forEach(element => {
                 if(element == "pop-up") config["pop-up"] = true;
-                else if(element == "wide") config["wide"] = true;
+                else if(element == "wide"){
+                    config["wide"] = true;
+                    params['wide'] = "-wide";
+                    params["elementWidth"] = 480;
+                }
             });
-            if(config["wide"]) params["elementWidth"] = 480;
             eventFeedHtml = '<div id = "event-feed"></div>';
             $('#happening-feed').append(eventFeedHtml);
             linkToHappening = url.replace("/json", "");
@@ -64,17 +69,22 @@ $(function() { // Document ready function
                 });
             }
             events = data;
-            state.count = events.length;
-            state.pageNum = Math.ceil(state.count/state.elements);
+            showEvents = events;
             state.feedSize = $('#event-feed').width();
             state.elementPerRow = Math.floor(state.feedSize/params["elementWidth"])>=1 ? Math.floor(state.feedSize/params["elementWidth"]): 1;
-            if(events.length) pagination();
-            pageButton();
+            pagination();
+            $("#feedInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                showEvents = events.filter(obj => obj.event_title.toLowerCase().includes(value)||obj.building_name.toLowerCase().includes(value));
+                pagination();
+            });
         }
     });
 
 
     function pagination(){
+        state.count = showEvents.length;
+        state.pageNum = Math.ceil(state.count/state.elements);
         $('#event-feed').empty();
         let trimStart = (state.page - 1) * state.elements;
         let trimEnd = (trimStart + state.elements < state.count) ? trimStart + state.elements: state.count;
@@ -87,14 +97,14 @@ $(function() { // Document ready function
                 html = buildEvent(placeholder,-1);
             }
             else{
-                html = buildEvent(events[i],i); // build html for object
+                html = buildEvent(showEvents[i],i); // build html for object
             }
             $('.event-row').last().append(html); // append each object to the <div id="happening-feed"></div>
         }
         $(".modal-button").click(function() {
             $('#modal').show();
             state['currentEvent'] = $(this).val();
-            buildModal(events[state['currentEvent']]);
+            buildModal(showEvents[state['currentEvent']]);
         });
         pageButton();
     }
@@ -105,7 +115,7 @@ $(function() { // Document ready function
             state.elementPerRow = Math.floor(state.feedSize/params["elementWidth"])>=1 ? Math.floor(state.feedSize/params["elementWidth"]): 1;
             pagination();
         }
-        buildModal(events[state['currentEvent']]);
+        buildModal(showEvents[state['currentEvent']]);
     });
 
     $(window).click(function(event){
@@ -152,13 +162,11 @@ $(function() { // Document ready function
     
     // create html for object.
     function buildEvent(obj,count) {
-        let wide = "";
-        if(config['wide']) wide = "-wide";
-        let html = '<div class="event'+wide+'" style="flex:0 0 '+(100/state.elementPerRow)+'%">';
+        let html = '<div class="event'+params['wide']+'" style="flex:0 0 '+(100/state.elementPerRow)+'%">';
         let image_url = (obj.image_url) ? obj.image_url: "https://events.umich.edu/images/default190@2x.png";
-        let image = '<a class = "image-link" href ='+obj.permalink+'><div class = "event-image'+wide+'" style="background-image: url('+image_url+')"></div></a>';
+        let image = '<a class = "image-link" href ='+obj.permalink+'><div class = "event-image'+params['wide']+'" style="background-image: url('+image_url+')"></div></a>';
         html += image;
-        html += '<div class = "event-text'+wide+'">';
+        html += '<div class = "event-text'+params['wide']+'">';
         let title = obj.event_title;
         html += '<h3><a href ='+obj.permalink+'>'+title+'</a></h3>';
         let date = obj.date_start;
