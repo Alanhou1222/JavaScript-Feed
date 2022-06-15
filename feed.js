@@ -1,6 +1,7 @@
 $(function() { // Document ready function
     var url = $('#happening-feed').attr('url'); // This is the URL for your JSON feed.
-    
+    loaderHtml = '<div class = "loader-container center-container"><div class="loader"></div></div>';
+    $('#happening-feed').append(loaderHtml);
     //pagination and modal
     var state = {
         'page':1,
@@ -44,6 +45,7 @@ $(function() { // Document ready function
     $.ajax({
         url: url, // Set the URL for the json feed
         success: function(data) { // Run this if there is a successful call
+            $('#happening-feed').empty();
             var classList = $('#happening-feed').attr("class");
             var classListArray =  classList.split(/\s+/);
             classListArray.forEach(element => {
@@ -58,7 +60,7 @@ $(function() { // Document ready function
                 }
             });
             if(config['search']){
-                searchHtml = '<div class = "feed-search"><div class = "search-content"><h4>Search Events</h4>'
+                searchHtml = '<div class = "feed-search center-container"><div class = "search-content"><h4>Search Events</h4>'
                 searchHtml += '<input id= "feed-input" class = "feed-input" type="text" placeholder="Search.."></input></div></div>';
                 $('#happening-feed').append(searchHtml);
                 $("#feed-input").on("keyup", function() {
@@ -69,9 +71,9 @@ $(function() { // Document ready function
             eventFeedHtml = '<div id = "event-feed"></div>';
             $('#happening-feed').append(eventFeedHtml);
             linkToHappening = url.replace("/json", "");
-            linkToHappeningHtml = '<div class = "container link-to-happening"><a href = "'+ linkToHappening+ '">View the full page on Happening @ Michigan</a></div>'
+            linkToHappeningHtml = '<div class = "center-container link-to-happening"><a href = "'+ linkToHappening+ '">View the full page on Happening @ Michigan</a></div>'
             $('#happening-feed').append(linkToHappeningHtml);
-            paginationHtml = '<div class = "pagination-container container"><div id="pagination-wrapper"></div></div>';
+            paginationHtml = '<div class = "center-container"><div id="pagination-wrapper"></div></div>';
             $('#happening-feed').append(paginationHtml);
             if(config['pop-up']){
                 modalHtml = '<div id="modal" class="modal"><div class="modal-content"><div id = "modal-header" class="modal-header"><span id = "modal-close" class="close">&times;</span></div><div id = "modal-body" class="modal-body modal-row"></div></div></div>';
@@ -98,7 +100,7 @@ $(function() { // Document ready function
         let trimEnd = (trimStart + state.elements < state.count) ? trimStart + state.elements: state.count;
         for(let i = trimStart; i <= trimEnd; i++) { // loop though list of objects
             if((i-trimStart)%state.elementPerRow==0){
-                row = '<div class="event-row container">';
+                row = '<div class="event-row center-container">';
                 $('#event-feed').append(row);
             }
             if(i == trimEnd){
@@ -196,7 +198,7 @@ $(function() { // Document ready function
             let text = links[i].title == null ? defaultTitle: links[i].title;
             link = '<i class="fa fa-link fa-fw maize"></i><a href = '+links[i].url+'> '+text + '</a><br>'
             if(i % 2 == 0){
-                html += '<div class = container>';
+                html += '<div class = center-container>';
             }
             html+= '<div class = "link-container">'+link+'</div>';
             if(i % 2 != 0 || i == Object.keys(links).length-1){
