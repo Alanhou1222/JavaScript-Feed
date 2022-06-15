@@ -17,6 +17,7 @@ $(function() { // Document ready function
     var config = {
         'pop-up': false,
         'wide': false,
+        'search': false,
     }
 
     //params
@@ -52,10 +53,19 @@ $(function() { // Document ready function
                     params['wide'] = "-wide";
                     params["elementWidth"] = 480;
                 }
+                else if(element == "search"){
+                    config['search'] = true;
+                }
             });
-            searchHtml = '<div class = "feed-search"><div class = "search-content"><h4>Search Events</h4>'
-            searchHtml += '<input id= "feed-input" class = "feed-input" type="text" placeholder="Search.."></input></div></div>';
-            $('#happening-feed').append(searchHtml);
+            if(config['search']){
+                searchHtml = '<div class = "feed-search"><div class = "search-content"><h4>Search Events</h4>'
+                searchHtml += '<input id= "feed-input" class = "feed-input" type="text" placeholder="Search.."></input></div></div>';
+                $('#happening-feed').append(searchHtml);
+                $("#feed-input").on("keyup", function() {
+                    search();
+                    pagination();
+                });
+            }
             eventFeedHtml = '<div id = "event-feed"></div>';
             $('#happening-feed').append(eventFeedHtml);
             linkToHappening = url.replace("/json", "");
@@ -76,12 +86,6 @@ $(function() { // Document ready function
             state.feedSize = $('#event-feed').width();
             state.elementPerRow = Math.floor(state.feedSize/params["elementWidth"])>=1 ? Math.floor(state.feedSize/params["elementWidth"]): 1;
             pagination();
-            $("#feed-input").on("keyup", function() {
-                var value = $(this).val().toLowerCase();
-                showEvents = events.filter(obj => obj.event_title.toLowerCase().includes(value)||obj.building_name.toLowerCase().includes(value));
-                state['page'] = 1;
-                pagination();
-            });
         }
     });
 
@@ -190,7 +194,7 @@ $(function() { // Document ready function
             let defaultTitle = (links[i].url.split("://"))[1];
             defaultTitle = (defaultTitle.split('/'))[0];
             let text = links[i].title == null ? defaultTitle: links[i].title;
-            link = '<i class="fa fa-link fa-fw"></i><a href = '+links[i].url+'> '+text + '</a><br>'
+            link = '<i class="fa fa-link fa-fw maize"></i><a href = '+links[i].url+'> '+text + '</a><br>'
             if(i % 2 == 0){
                 html += '<div class = container>';
             }
@@ -238,10 +242,24 @@ $(function() { // Document ready function
                 let defaultTitle = (links[i].url.split("://"))[1];
                 defaultTitle = (defaultTitle.split('/'))[0];
                 let text = links[i].title == null ? defaultTitle: links[i].title;
-                link = '<i class="fa fa-link fa-fw"></i><a class = "modal-link" href = '+links[i].url+'> '+text + '</a><br>'
+                link = '<i class="fa fa-link fa-fw blue"></i><a class = "modal-link" href = '+links[i].url+'> '+text + '</a><br>'
                 linkHtml+= link;
             }
         }
         return linkHtml;
+    }
+
+    function search(){
+        let value = $("#feed-input").val().toLowerCase();
+        let eventSet = new Set();
+        let count = 0;
+        showEvents = events.filter(obj => obj.event_type.toLowerCase().includes(value));
+        for(let i = count; i < showEvents.length; i++) eventSet.add(showEvents[i].id);
+        count = showEvents.length;
+        showEvents = showEvents.concat(events.filter(obj => obj.tags.find(element => element.toLowerCase().includes(value))&& !eventSet.has(obj.id)));
+        for(let i = count; i < showEvents.length; i++) eventSet.add(showEvents[i].id);
+        count = showEvents.length;
+        showEvents = showEvents.concat(events.filter(obj => (obj.event_title.toLowerCase().includes(value)|| obj.building_name.toLowerCase().includes(value) || obj.description.toLowerCase().includes(value)) && !eventSet.has(obj.id)));
+        state['page'] = 1;
     }
 });

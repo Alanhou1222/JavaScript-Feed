@@ -95,8 +95,12 @@
     position: relative;
 }
 
-.fa-link{
+.maize{
     color: var(--maize);
+}
+
+.blue{
+    color: var(--blue);
 }
 
 .pagination-container{
@@ -178,6 +182,10 @@
     top: 10%;
     left: 10%;
     overflow: scroll;
+}
+
+.modal-content a{
+    color: var(--blue);
 }
 
 .modal-button{
