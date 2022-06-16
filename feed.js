@@ -1,6 +1,6 @@
 $(function() { // Document ready function
     var url = $('#happening-feed').attr('url'); // This is the URL for your JSON feed.
-    loaderHtml = '<div class = "loader-container center-container"><div class="loader"></div></div>';
+    loaderHtml = '<div class = "loader-container feed-container center"><div class="loader"></div></div>';
     $('#happening-feed').append(loaderHtml);
     //pagination and modal
     var state = {
@@ -29,6 +29,7 @@ $(function() { // Document ready function
 
     //copy of events data
     var events;
+    var filteredEvents;
     var showEvents;
 
     //placeholder
@@ -40,6 +41,10 @@ $(function() { // Document ready function
         'location_name': "",
         'links': "",
     }
+
+    //advance search
+    var tagSet = new Set();
+    var typeSet = new Set();
 
     // Run an ajax call. The documentation is here : http://api.jquery.com/jquery.ajax/
     $.ajax({
@@ -60,20 +65,19 @@ $(function() { // Document ready function
                 }
             });
             if(config['search']){
-                searchHtml = '<div class = "feed-search center-container"><div class = "search-content"><h4>Search Events</h4>'
-                searchHtml += '<input id= "feed-input" class = "feed-input" type="text" placeholder="Search.."></input></div></div>';
+                searchHtml = '<div class = "feed-search feed-container center"><div id = "search-content" class = "search-content"><h4>Search Events</h4>'
+                searchHtml += '<input id= "search-input" class = "search-input" type="text" placeholder="Search.."></input>';
                 $('#happening-feed').append(searchHtml);
-                $("#feed-input").on("keyup", function() {
+                $("#search-input").on("keyup", function() {
                     search();
-                    pagination();
                 });
             }
             eventFeedHtml = '<div id = "event-feed"></div>';
             $('#happening-feed').append(eventFeedHtml);
             linkToHappening = url.replace("/json", "");
-            linkToHappeningHtml = '<div class = "center-container link-to-happening"><a href = "'+ linkToHappening+ '">View the full page on Happening @ Michigan</a></div>'
+            linkToHappeningHtml = '<div class = "feed-container center link-to-happening"><a href = "'+ linkToHappening+ '">View the full page on Happening @ Michigan</a></div>'
             $('#happening-feed').append(linkToHappeningHtml);
-            paginationHtml = '<div class = "center-container"><div id="pagination-wrapper"></div></div>';
+            paginationHtml = '<div class = "feed-container center"><div id="pagination-wrapper"></div></div>';
             $('#happening-feed').append(paginationHtml);
             if(config['pop-up']){
                 modalHtml = '<div id="modal" class="modal"><div class="modal-content"><div id = "modal-header" class="modal-header"><span id = "modal-close" class="close">&times;</span></div><div id = "modal-body" class="modal-body modal-row"></div></div></div>';
@@ -84,23 +88,43 @@ $(function() { // Document ready function
                 });
             }
             events = data;
-            showEvents = events;
+            filteredEvents = events;
+            showEvents = filteredEvents;
             state.feedSize = $('#event-feed').width();
             state.elementPerRow = Math.floor(state.feedSize/params["elementWidth"])>=1 ? Math.floor(state.feedSize/params["elementWidth"]): 1;
             pagination();
+            advanceSearchSetup();
         }
     });
 
+    $(window).resize(function() {
+        state.feedSize = $('#happening-feed').width();
+        if(state.elementPerRow != Math.floor(state.feedSize/params["elementWidth"])){
+            state.elementPerRow = Math.floor(state.feedSize/params["elementWidth"])>=1 ? Math.floor(state.feedSize/params["elementWidth"]): 1;
+            pagination();
+        }
+        buildModal(showEvents[state['currentEvent']]);
+    });
+
+    $(window).click(function(event){
+        if(event.target == $('#modal')[0]){
+            $('#modal').hide();
+        }
+    });
+
+    $('#advance-search-submit').on('click', function(){
+        advanceSearch();
+    });
 
     function pagination(){
-        state.count = showEvents.length;
+        state.count = Object.keys(showEvents).length;
         state.pageNum = (Math.ceil(state.count/state.elements) == 0) ? 1:Math.ceil(state.count/state.elements);
         $('#event-feed').empty();
         let trimStart = (state.page - 1) * state.elements;
         let trimEnd = (trimStart + state.elements < state.count) ? trimStart + state.elements: state.count;
         for(let i = trimStart; i <= trimEnd; i++) { // loop though list of objects
             if((i-trimStart)%state.elementPerRow==0){
-                row = '<div class="event-row center-container">';
+                row = '<div class="event-row feed-container">';
                 $('#event-feed').append(row);
             }
             if(i == trimEnd){
@@ -122,21 +146,6 @@ $(function() { // Document ready function
         });
         pageButton();
     }
-
-    $(window).resize(function() {
-        state.feedSize = $('#happening-feed').width();
-        if(state.elementPerRow != Math.floor(state.feedSize/params["elementWidth"])){
-            state.elementPerRow = Math.floor(state.feedSize/params["elementWidth"])>=1 ? Math.floor(state.feedSize/params["elementWidth"]): 1;
-            pagination();
-        }
-        buildModal(showEvents[state['currentEvent']]);
-    });
-
-    $(window).click(function(event){
-        if(event.target == $('#modal')[0]){
-            $('#modal').hide();
-        }
-    });
     
     function pageButton(){
         $('#pagination-wrapper').empty();
@@ -198,7 +207,7 @@ $(function() { // Document ready function
             let text = links[i].title == null ? defaultTitle: links[i].title;
             link = '<i class="fa fa-link fa-fw maize"></i><a href = '+links[i].url+'> '+text + '</a><br>'
             if(i % 2 == 0){
-                html += '<div class = center-container>';
+                html += '<div class = feed-container>';
             }
             html+= '<div class = "link-container">'+link+'</div>';
             if(i % 2 != 0 || i == Object.keys(links).length-1){
@@ -255,13 +264,53 @@ $(function() { // Document ready function
         let value = $("#feed-input").val().toLowerCase();
         let eventSet = new Set();
         let count = 0;
-        showEvents = events.filter(obj => obj.event_type.toLowerCase().includes(value));
-        for(let i = count; i < showEvents.length; i++) eventSet.add(showEvents[i].id);
-        count = showEvents.length;
-        showEvents = showEvents.concat(events.filter(obj => obj.tags.find(element => element.toLowerCase().includes(value))&& !eventSet.has(obj.id)));
-        for(let i = count; i < showEvents.length; i++) eventSet.add(showEvents[i].id);
-        count = showEvents.length;
-        showEvents = showEvents.concat(events.filter(obj => (obj.event_title.toLowerCase().includes(value)|| obj.building_name.toLowerCase().includes(value) || obj.description.toLowerCase().includes(value)) && !eventSet.has(obj.id)));
+        if(value){
+            showEvents = filteredEvents.filter(obj => obj.event_type.toLowerCase().includes(value));
+            for(let i = count; i < Object.keys(showEvents).length; i++) eventSet.add(showEvents[i].id);
+            count = Object.keys(showEvents).length;
+            showEvents = showEvents.concat(filteredEvents.filter(obj => obj.tags.find(element => element.toLowerCase().includes(value))&& !eventSet.has(obj.id)));
+            for(let i = count; i < Object.keys(showEvents).length; i++) eventSet.add(showEvents[i].id);
+            count = Object.keys(showEvents).length;
+            showEvents = showEvents.concat(filteredEvents.filter(obj => (obj.event_title.toLowerCase().includes(value)|| obj.building_name.toLowerCase().includes(value) || obj.description.toLowerCase().includes(value)) && !eventSet.has(obj.id)));
+        }
+        else{
+            showEvents = filteredEvents;
+        }
         state['page'] = 1;
+        pagination();
+    }
+
+    function advanceSearchSetup(){
+        for(let i = 0; i < events.length; i ++){
+            for(let j = 0; j < events[i].tags.length; j++){
+                tagSet.add(events[i].tags[j]);
+            }
+            typeSet.add(events[i].event_type);
+        }
+        advanceSearchHtml = '<div id = "advance-search" class = "advance-search"><div class = "container-fluid"><div class = "row">';
+        advanceSearchHtml += '<div class = "col-sm-6 search-date-container"><label for = "search-start-date">Start Date: </label><br><input type = "date" id = "search-start-date" class = "search-date"></div>';
+        advanceSearchHtml += '<div class = "col-sm-6 search-date-container"><label for = "search-end-date">End Date: </label><br><input type = "date" id = "search-end-date" class = "search-date"></div>';
+        advanceSearchHtml += '</div>';
+        advanceSearchHtml += '<div class = "row type-row"><div class = "col-sm-6">';
+        advanceSearchHtml += '<label for = "type-checkbox">Event types:</label><br>';
+        advanceSearchHtml += '<div class = "type-checkbox-container">';
+        typeSet.forEach(element => {
+            advanceSearchHtml += '<input type="checkbox" class = "type-checkbox" value ="'+element+'"><label for="'+element+'"> '+element+'</label><br>';
+        });
+        advanceSearchHtml += '</div></div></div>';
+        advanceSearchHtml += '<button id = "advance-search-submit">Submit</button></div>';
+        $('#search-content').append(advanceSearchHtml);
+    }
+
+    function advanceSearch(){
+        filteredEvents = events;
+        if($('#search-start-date').val()) filteredEvents = filteredEvents.filter(obj => obj.date_start >= $('#search-start-date').val());
+        if($('#search-end-date').val()) filteredEvents = filteredEvents.filter(obj => obj.date_start <= $('#search-end-date').val());
+        let typeChecked = new Set;
+        $(".type-checkbox").each(function(){
+            if($(this).is(':checked')) typeChecked.add($(this).val());
+        });
+        filteredEvents = filteredEvents.filter(obj => typeChecked.has(obj.event_type));
+        search();
     }
 });
