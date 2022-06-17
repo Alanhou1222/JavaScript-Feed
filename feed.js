@@ -65,7 +65,7 @@ $(function() { // Document ready function
                 }
             });
             if(config['search']){
-                searchHtml = '<div class = "feed-search feed-container center"><div id = "search-content" class = "search-content"><h5>Search Events</h5>'
+                searchHtml = '<div class = "feed-search feed-container center"><div id = "search-content" class = "search-content"><h4>Search Events</h4>'
                 searchHtml += '<input id= "search-input" class = "search-input" type="text" placeholder="Search.."></input><div class = "advance-search-button-container"><a class = "advance-search-button">advance search</a><div>';
                 $('#happening-feed').append(searchHtml);
                 $("#search-input").on("keyup", function() {
@@ -80,7 +80,7 @@ $(function() { // Document ready function
             paginationHtml = '<div class = "feed-container center"><div id="pagination-wrapper"></div></div>';
             $('#happening-feed').append(paginationHtml);
             if(config['pop-up']){
-                modalHtml = '<div id="feed-modal" class="feed-modal"><div class="feed-modal-content"><div id = "feed-modal-header" class="feed-modal-header"><span id = "feed-modal-close" class="close">&times;</span></div><div id = "feed-modal-body" class="feed-modal-body feed-modal-row"></div></div></div>';
+                modalHtml = '<div id="feed-modal" class="feed-modal"><div class="feed-modal-content"><div id = "feed-modal-header" class="feed-modal-header"><span id = "feed-modal-close" class="feed-modal-close">&times;</span></div><div id = "feed-modal-body" class="feed-modal-body feed-modal-row"></div></div></div>';
                 $('#happening-feed').append(modalHtml);
                 // When the user clicks on <span> (x), close the modal
                 $('#feed-modal-close').on('click', function(){
