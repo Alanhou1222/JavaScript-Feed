@@ -65,11 +65,14 @@ $(function() { // Document ready function
                 }
             });
             if(config['search']){
-                searchHtml = '<div class = "feed-search feed-container center"><div id = "search-content" class = "search-content"><h4>Search Events</h4>'
-                searchHtml += '<input id= "search-input" class = "search-input" type="text" placeholder="Search.."></input><div class = "advance-search-button-container"><a class = "advance-search-button">advance search</a><div>';
+                searchHtml = '<div class = "feed-search feed-container center"><div id = "search-content" class = "search-content"><h3>Search Events</h3>'
+                searchHtml += '<input id= "search-input" class = "search-input" type="text" placeholder="Search.."></input><div class = "advance-search-toggle-container"><a id = "advance-search-toggle" class = "advance-search-toggle">advance search</a><div>';
                 $('#happening-feed').append(searchHtml);
                 $("#search-input").on("keyup", function() {
                     search();
+                });
+                $('#advance-search-toggle').on("click", function() {
+                    $('#advance-search').toggle();
                 });
             }
             eventFeedHtml = '<div id = "event-feed"></div>';
@@ -284,30 +287,34 @@ $(function() { // Document ready function
             typeSet.add(events[i].event_type);
         }
         advanceSearchHtml = '<div id = "advance-search" class = "advance-search"><div class = "container-fluid"><div class = "row">';
-        advanceSearchHtml += '<div class = "col-sm-6 search-date-container"><label for = "search-start-date">Start Date: </label><br><input type = "date" id = "search-start-date" class = "search-date"></div>';
-        advanceSearchHtml += '<div class = "col-sm-6 search-date-container"><label for = "search-end-date">End Date: </label><br><input type = "date" id = "search-end-date" class = "search-date"></div>';
+        advanceSearchHtml += '<div class = "col-sm-6 search-container"><label for = "search-start-date">Start Date: </label><br><input type = "date" id = "search-start-date" class = "search-date"></div>';
+        advanceSearchHtml += '<div class = "col-sm-6 search-container"><label for = "search-end-date">End Date: </label><br><input type = "date" id = "search-end-date" class = "search-date"></div>';
         advanceSearchHtml += '</div>';
-        advanceSearchHtml += '<div class = "row type-row"><div class = "col-sm-6">';
+        advanceSearchHtml += '<div class = "row type-row"><div class = "col-sm-6 search-container">';
         advanceSearchHtml += '<label for = "type-checkbox">Event types:</label><br>';
         advanceSearchHtml += '<div class = "search-checkbox-container">';
         typeSet.forEach(element => {
             advanceSearchHtml += '<input type="checkbox" class = "type-checkbox" value ="'+element+'"><label for="'+element+'"> '+element+'</label><br>';
         });
         advanceSearchHtml += '</div></div>';
-        advanceSearchHtml += '<div class = "col-sm-6">';
+        advanceSearchHtml += '<div class = "col-sm-6 search-container">';
         advanceSearchHtml += '<label for = "tag-checkbox">Event tags:&nbsp</label><input id = "tag-search-input" class = "tag-search-input" type="text" placeholder="Search Tags.."></input><br>';
         advanceSearchHtml += '<div class = "search-checkbox-container">';
         tagSet.forEach(element => {
             advanceSearchHtml += '<div><input type="checkbox" class = "tag-checkbox" value ="'+element+'"><label for="'+element+'" class = "tag-label"> '+element+'</label></div>';
         });
         advanceSearchHtml += '</div></div></div>';
-        advanceSearchHtml += '<button id = "advance-search-submit">Submit</button></div>';
+        advanceSearchHtml += '<div class = "advance-search-button-container"><button id = "advance-search-clear" class = "advance-search-clear">Clear Search</button><button id = "advance-search-submit" class = "advance-search-submit">Submit</button></div></div>';
         $('#search-content').append(advanceSearchHtml);
         $("#tag-search-input").on("keyup", function() {
             tagSearch();
         });
         $('#advance-search-submit').on('click', function(){
+            $('#advance-search').toggle();
             advanceSearch();
+        });
+        $('#advance-search-clear').on('click', function(){
+            clearAdvanceSearch();
         });
     }
 
@@ -319,7 +326,7 @@ $(function() { // Document ready function
         $(".type-checkbox").each(function(){
             if($(this).is(':checked')) typeChecked.add($(this).val());
         });
-        filteredEvents = filteredEvents.filter(obj => typeChecked.has(obj.event_type));
+        if(typeChecked.size != 0)filteredEvents = filteredEvents.filter(obj => typeChecked.has(obj.event_type));
         search();
     }
 
@@ -330,6 +337,14 @@ $(function() { // Document ready function
         });
         $('.tag-label').filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    }
+
+    function clearAdvanceSearch(){
+        $('#search-start-date').val("");
+        $('#search-end-date').val("");
+        $('input:checkbox').each(function(){
+            $(this).prop("checked", false);
         });
     }
 });
