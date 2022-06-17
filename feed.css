@@ -14,6 +14,7 @@
     font-weight: bold;
     line-height: 125%;
     text-decoration: none;
+    cursor:pointer;
 }
 
 .happening-feed a:hover{
@@ -118,7 +119,6 @@
 
 .page-button:hover {
     background-color: #ffe205;
-    cursor: pointer;
 }
 
 .current-page{
@@ -156,7 +156,7 @@
 }
 
 /* The Modal (background) */
-.modal {
+.feed-modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -174,7 +174,7 @@
   }
 
 /* Modal Content */
-.modal-content {
+.feed-modal-content {
     position: fixed;
     background-color: #fefefe;
     width: 80%;
@@ -184,11 +184,11 @@
     overflow: scroll;
 }
 
-.modal-content a{
+.feed-modal-content a{
     color: var(--blue);
 }
 
-.modal-button{
+.feed-modal-button{
     position: absolute;
     right: 5px;
     bottom: 5px;
@@ -199,9 +199,8 @@
     font-family: inherit;
 }
 
-.modal-button:hover{
+.feed-modal-button:hover{
     text-decoration: underline;
-    cursor: pointer;
 }
 
 /* The Close Button */
@@ -218,36 +217,36 @@
     cursor: pointer;
 }
   
-.modal-header {
+.feed-modal-header {
     padding: 2px 16px;
     background-color: var(--dark-blue);
     color: var(--maize);
 }
   
-.modal-body {
+.feed-modal-body {
     padding: 16px;
 }
 
-.modal-row{
+.feed-modal-row{
     display: flex;
 }
 
-.modal-main{
+.feed-modal-main{
     width: 70%;
     padding: 0 5px 0 15px;
     line-height: 140%;
 }
 
-.modal-text{
+.feed-modal-text{
     color: var(--dark-blue);
     overflow-wrap: break-word;
 }
 
-.modal-side{
+.feed-modal-side{
     width: 30%;
 }
 
-.modal-image{
+.feed-modal-image{
     overflow: hidden;
     background-size: cover;
     background-position: center center;
@@ -262,11 +261,11 @@
     padding: 5px 0;
 }
 
-.modal-link{
+.feed-modal-link{
     font-size: 14px;
 }
 
-#modal-event-link{
+#feed-modal-event-link{
     font-size: 16px;
     float:right;
     margin-right: 16px;
@@ -306,6 +305,10 @@
     border-radius: 10px;
     position: relative;
     z-index: 1;
+}
+
+.search-content a{
+    color: black;
 }
 
 .search-input{
@@ -355,7 +358,7 @@
 .advance-search{
     width: 100%;
     background-color: #ffffff;
-    margin-top: 20px;
+    display: none;
 }
 
 .search-date-container{
@@ -367,8 +370,8 @@
     height: 30px;
 }
 
-.type-checkbox-container{
-    height: 300px;
+.search-checkbox-container{
+    height: 500px;
     overflow: scroll;
     box-sizing: border-box;
     border: var(--gray) solid 1px;
@@ -376,6 +379,16 @@
     border-radius: 4px;
 }
 
+.tag-search-input{
+    height: 30px;
+    box-sizing:border-box;
+    border-radius: 5px;
+}
+
 .type-row{
     margin-top: 10px;
+}
+
+.advance-search-button-container{
+    margin-top: 20px;
 }

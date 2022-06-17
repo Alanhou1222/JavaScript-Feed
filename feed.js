@@ -65,8 +65,8 @@ $(function() { // Document ready function
                 }
             });
             if(config['search']){
-                searchHtml = '<div class = "feed-search feed-container center"><div id = "search-content" class = "search-content"><h4>Search Events</h4>'
-                searchHtml += '<input id= "search-input" class = "search-input" type="text" placeholder="Search.."></input>';
+                searchHtml = '<div class = "feed-search feed-container center"><div id = "search-content" class = "search-content"><h5>Search Events</h5>'
+                searchHtml += '<input id= "search-input" class = "search-input" type="text" placeholder="Search.."></input><div class = "advance-search-button-container"><a class = "advance-search-button">advance search</a><div>';
                 $('#happening-feed').append(searchHtml);
                 $("#search-input").on("keyup", function() {
                     search();
@@ -80,11 +80,11 @@ $(function() { // Document ready function
             paginationHtml = '<div class = "feed-container center"><div id="pagination-wrapper"></div></div>';
             $('#happening-feed').append(paginationHtml);
             if(config['pop-up']){
-                modalHtml = '<div id="modal" class="modal"><div class="modal-content"><div id = "modal-header" class="modal-header"><span id = "modal-close" class="close">&times;</span></div><div id = "modal-body" class="modal-body modal-row"></div></div></div>';
+                modalHtml = '<div id="feed-modal" class="feed-modal"><div class="feed-modal-content"><div id = "feed-modal-header" class="feed-modal-header"><span id = "feed-modal-close" class="close">&times;</span></div><div id = "feed-modal-body" class="feed-modal-body feed-modal-row"></div></div></div>';
                 $('#happening-feed').append(modalHtml);
                 // When the user clicks on <span> (x), close the modal
-                $('#modal-close').on('click', function(){
-                    $('#modal').hide();
+                $('#feed-modal-close').on('click', function(){
+                    $('#feed-modal').hide();
                 });
             }
             events = data;
@@ -107,13 +107,9 @@ $(function() { // Document ready function
     });
 
     $(window).click(function(event){
-        if(event.target == $('#modal')[0]){
-            $('#modal').hide();
+        if(event.target == $('#feed-modal')[0]){
+            $('#feed-modal').hide();
         }
-    });
-
-    $('#advance-search-submit').on('click', function(){
-        advanceSearch();
     });
 
     function pagination(){
@@ -139,8 +135,8 @@ $(function() { // Document ready function
             html = "<h3>No events found. Please modify your search and try again</h3>";
             $('.event-row').last().append(html);
         }
-        $(".modal-button").click(function() {
-            $('#modal').show();
+        $(".feed-modal-button").click(function() {
+            $('#feed-modal').show();
             state['currentEvent'] = $(this).val();
             buildModal(showEvents[state['currentEvent']]);
         });
@@ -216,32 +212,32 @@ $(function() { // Document ready function
         }
         html += '</div>';
         // When the user clicks the buttons, open the modal 
-        if(config["pop-up"]&&count != -1) html += '<button value = "'+count+'" class = "modal-button">Read More</button>';
+        if(config["pop-up"]&&count != -1) html += '<button value = "'+count+'" class = "feed-modal-button">Read More</button>';
         html += '</div>';
         return html;
     }
 
     function buildModal(obj){
-        $('#modal-header h2, #modal-header h4').remove();
-        $('#modal-body').empty();
-        $('#modal-event-link').remove();
+        $('#feed-modal-header h2, #feed-modal-header h4').remove();
+        $('#feed-modal-body').empty();
+        $('#feed-modal-event-link').remove();
         titles = '<h2>'+obj.event_title+'</h2>';
         if(obj.event_subtitle != "") titles += '<h4>'+obj.event_subtitle+'</h4>';
-        $('#modal-header').append(titles);
-        html = '<div class = "modal-side">';
+        $('#feed-modal-header').append(titles);
+        html = '<div class = "feed-modal-side">';
         let image_url = (obj.image_url) ? obj.image_url: "https://events.umich.edu/images/default190@2x.png";
-        html += '<div class = "modal-image" style="background-image: url('+image_url+')"></div>';
+        html += '<div class = "feed-modal-image" style="background-image: url('+image_url+')"></div>';
         if($( window ).width() > 800) html += buildModalLinks(obj);
         html += '</div>';
-        html += '<div class = "modal-main"><div class= "modal-text">';
+        html += '<div class = "feed-modal-main"><div class= "feed-modal-text">';
         html += obj.description;
         html += '</div><hr><ul><li><i class="fa fa-fw fa-calendar"></i>';
         html += '<span> '+obj.date_start+'</span></li>';
         if(obj.location_name) html += '<li><i class="fa fa-location-arrow fa-fw"></i><span> Location: '+obj.location_name+'</span></li>';
         html += '</ul></div>';
         if($( window ).width() <= 800) html += buildModalLinks(obj);
-        $('#modal-body').append(html);
-        $('#modal-body').after('<a id = "modal-event-link" href ='+obj.permalink+'>View on Happening @ Michigan'+'</a>');
+        $('#feed-modal-body').append(html);
+        $('#feed-modal-body').after('<a id = "feed-modal-event-link" href ='+obj.permalink+'>View on Happening @ Michigan'+'</a>');
     }
 
     function buildModalLinks(obj){
@@ -253,7 +249,7 @@ $(function() { // Document ready function
                 let defaultTitle = (links[i].url.split("://"))[1];
                 defaultTitle = (defaultTitle.split('/'))[0];
                 let text = links[i].title == null ? defaultTitle: links[i].title;
-                link = '<i class="fa fa-link fa-fw blue"></i><a class = "modal-link" href = '+links[i].url+'> '+text + '</a><br>'
+                link = '<i class="fa fa-link fa-fw blue"></i><a class = "feed-modal-link" href = '+links[i].url+'> '+text + '</a><br>'
                 linkHtml+= link;
             }
         }
@@ -261,10 +257,13 @@ $(function() { // Document ready function
     }
 
     function search(){
-        let value = $("#feed-input").val().toLowerCase();
-        let eventSet = new Set();
-        let count = 0;
-        if(value){
+        if(!$("#feed-input").val()){
+            showEvents = filteredEvents;
+        }
+        else{
+            let value = $("#feed-input").val().toLowerCase();
+            let eventSet = new Set();
+            let count = 0;
             showEvents = filteredEvents.filter(obj => obj.event_type.toLowerCase().includes(value));
             for(let i = count; i < Object.keys(showEvents).length; i++) eventSet.add(showEvents[i].id);
             count = Object.keys(showEvents).length;
@@ -272,9 +271,6 @@ $(function() { // Document ready function
             for(let i = count; i < Object.keys(showEvents).length; i++) eventSet.add(showEvents[i].id);
             count = Object.keys(showEvents).length;
             showEvents = showEvents.concat(filteredEvents.filter(obj => (obj.event_title.toLowerCase().includes(value)|| obj.building_name.toLowerCase().includes(value) || obj.description.toLowerCase().includes(value)) && !eventSet.has(obj.id)));
-        }
-        else{
-            showEvents = filteredEvents;
         }
         state['page'] = 1;
         pagination();
@@ -293,13 +289,26 @@ $(function() { // Document ready function
         advanceSearchHtml += '</div>';
         advanceSearchHtml += '<div class = "row type-row"><div class = "col-sm-6">';
         advanceSearchHtml += '<label for = "type-checkbox">Event types:</label><br>';
-        advanceSearchHtml += '<div class = "type-checkbox-container">';
+        advanceSearchHtml += '<div class = "search-checkbox-container">';
         typeSet.forEach(element => {
             advanceSearchHtml += '<input type="checkbox" class = "type-checkbox" value ="'+element+'"><label for="'+element+'"> '+element+'</label><br>';
+        });
+        advanceSearchHtml += '</div></div>';
+        advanceSearchHtml += '<div class = "col-sm-6">';
+        advanceSearchHtml += '<label for = "tag-checkbox">Event tags:&nbsp</label><input id = "tag-search-input" class = "tag-search-input" type="text" placeholder="Search Tags.."></input><br>';
+        advanceSearchHtml += '<div class = "search-checkbox-container">';
+        tagSet.forEach(element => {
+            advanceSearchHtml += '<div><input type="checkbox" class = "tag-checkbox" value ="'+element+'"><label for="'+element+'" class = "tag-label"> '+element+'</label></div>';
         });
         advanceSearchHtml += '</div></div></div>';
         advanceSearchHtml += '<button id = "advance-search-submit">Submit</button></div>';
         $('#search-content').append(advanceSearchHtml);
+        $("#tag-search-input").on("keyup", function() {
+            tagSearch();
+        });
+        $('#advance-search-submit').on('click', function(){
+            advanceSearch();
+        });
     }
 
     function advanceSearch(){
@@ -312,5 +321,15 @@ $(function() { // Document ready function
         });
         filteredEvents = filteredEvents.filter(obj => typeChecked.has(obj.event_type));
         search();
+    }
+
+    function tagSearch(){
+        let value = $("#tag-search-input").val().toLowerCase();
+        $('.tag-checkbox').filter(function() {
+            $(this).toggle($(this).val().toLowerCase().indexOf(value) > -1);
+        });
+        $('.tag-label').filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
     }
 });
