@@ -362,6 +362,5 @@ $(function() { // Document ready function
         autoHeight = element.css('height', 'auto').height(); // Get Auto Height
         element.height(curHeight); // Reset to Default Height
         element.stop().animate({ height: autoHeight }, time, function(){$('#advance-search').css("height", "auto");}); // Animate to Auto Height
-        console.log(autoHeight);
     }
 });

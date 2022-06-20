@@ -159,7 +159,7 @@
 .feed-modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 100; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -303,10 +303,16 @@
     padding: 5px 15px 20px 15px;
     background: rgba(255,255,255,.7);
     border-radius: 10px;
-    position: absolute;
+    box-sizing: border-box;
     z-index: 1;
-    top:30px;
+    margin: 20px;
 }
+
+.search-content h3{
+    font-size: 1.17em;
+    line-height: 1.17em;
+}
+
 
 .search-content a{
     color: black;
