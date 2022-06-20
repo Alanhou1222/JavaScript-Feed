@@ -317,7 +317,7 @@ $(function() { // Document ready function
             tagSearch();
         });
         $('#advance-search-submit').on('click', function(){
-            $('#advance-search').toggle();
+            $('#advance-search').stop().animate({ height: '0'}, animateTime);;
             advanceSearch();
         });
         $('#advance-search-clear').on('click', function(){
