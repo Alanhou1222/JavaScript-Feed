@@ -359,8 +359,10 @@
 .advance-search{
     width: 100%;
     background-color: #ffffff;
-    display: none;
+    height: 0px;
+    overflow: hidden;
 }
+
 
 .search-container{
     padding-top: 10px;

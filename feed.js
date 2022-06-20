@@ -72,7 +72,13 @@ $(function() { // Document ready function
                     search();
                 });
                 $('#advance-search-toggle').on("click", function() {
-                    $('#advance-search').toggle();
+                    animateTime = 500;
+                    if($('#advance-search').height() === 0){
+                        autoHeightAnimate($('#advance-search'), animateTime);
+                    } 
+                    else {
+                        $('#advance-search').stop().animate({ height: '0'}, animateTime);
+                    }
                 });
             }
             eventFeedHtml = '<div id = "event-feed"></div>';
@@ -346,5 +352,16 @@ $(function() { // Document ready function
         $('input:checkbox').each(function(){
             $(this).prop("checked", false);
         });
+        $('#tag-search-input').val("");
+        tagSearch();
+    }
+
+    /* Function to animate height: auto */
+    function autoHeightAnimate(element, time){
+        var curHeight = element.height(), // Get Default Height
+        autoHeight = element.css('height', 'auto').height(); // Get Auto Height
+        element.height(curHeight); // Reset to Default Height
+        element.stop().animate({ height: autoHeight }, time, function(){$('#advance-search').css("height", "auto");}); // Animate to Auto Height
+        console.log(autoHeight);
     }
 });
