@@ -266,11 +266,12 @@ $(function() { // Document ready function
     }
 
     function search(){
-        if(!$("#feed-input").val()){
+        if(!$("#search-input").val()){
             showEvents = filteredEvents;
+            console.log("cool");
         }
         else{
-            let value = $("#feed-input").val().toLowerCase();
+            let value = $("#search-input").val().toLowerCase();
             let eventSet = new Set();
             let count = 0;
             showEvents = filteredEvents.filter(obj => obj.event_type.toLowerCase().includes(value));
