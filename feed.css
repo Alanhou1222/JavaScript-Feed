@@ -374,7 +374,7 @@
 }
 
 .search-checkbox-container{
-    height: 500px;
+    height: 400px;
     overflow: scroll;
     box-sizing: border-box;
     border: var(--gray) solid 1px;
