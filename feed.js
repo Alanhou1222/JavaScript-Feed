@@ -268,7 +268,6 @@ $(function() { // Document ready function
     function search(){
         if(!$("#search-input").val()){
             showEvents = filteredEvents;
-            console.log("cool");
         }
         else{
             let value = $("#search-input").val().toLowerCase();
@@ -311,29 +310,48 @@ $(function() { // Document ready function
             advanceSearchHtml += '<div><input type="checkbox" class = "tag-checkbox" value ="'+element+'"><label for="'+element+'" class = "tag-label"> '+element+'</label></div>';
         });
         advanceSearchHtml += '</div></div></div>';
-        advanceSearchHtml += '<div class = "advance-search-button-container"><button id = "advance-search-clear" class = "advance-search-clear">Clear Search</button><button id = "advance-search-submit" class = "advance-search-submit">Submit</button></div></div>';
+        advanceSearchHtml += '<div class = "advance-search-button-container"><button id = "search-clear" class = "search-clear">Clear Search</button><button id = "advance-search-submit" class = "advance-search-submit">Submit</button></div></div>';
         $('#search-content').append(advanceSearchHtml);
         $("#tag-search-input").on("keyup", function() {
             tagSearch();
         });
         $('#advance-search-submit').on('click', function(){
-            $('#advance-search').stop().animate({ height: '0'}, animateTime);;
+            $('#advance-search').stop().animate({ height: '0'}, animateTime);
             advanceSearch();
         });
-        $('#advance-search-clear').on('click', function(){
-            clearAdvanceSearch();
+        $('#search-clear').on('click', function(){
+            clearSearch();
+            $('#advance-search').stop().animate({ height: '0'}, animateTime);
         });
     }
 
     function advanceSearch(){
+        let typeChecked = new Set();
+        let tagChecked = new Set();
         filteredEvents = events;
-        if($('#search-start-date').val()) filteredEvents = filteredEvents.filter(obj => obj.date_start >= $('#search-start-date').val());
-        if($('#search-end-date').val()) filteredEvents = filteredEvents.filter(obj => obj.date_start <= $('#search-end-date').val());
-        let typeChecked = new Set;
         $(".type-checkbox").each(function(){
             if($(this).is(':checked')) typeChecked.add($(this).val());
         });
-        if(typeChecked.size != 0)filteredEvents = filteredEvents.filter(obj => typeChecked.has(obj.event_type));
+        $(".tag-checkbox").each(function(){
+            if($(this).is(':checked')) tagChecked.add($(this).val());
+        });
+        if(typeChecked.size != 0){
+            filteredEvents = filteredEvents.filter(obj => typeChecked.has(obj.event_type));
+            if(tagChecked.size != 0) filteredEvents = filteredEvents.concat(events.filter(function(obj){
+                for(tag of obj.tags){
+                    if(tagChecked.has(tag)) return true;
+                }
+                return false;
+            }));
+        }
+        else if(tagChecked.size != 0) filteredEvents = filteredEvents.filter(function(obj){
+                for(tag of obj.tags){
+                    if(tagChecked.has(tag)) return true;
+                }
+                return false;
+            });
+        if($('#search-start-date').val()) filteredEvents = filteredEvents.filter(obj => obj.date_start >= $('#search-start-date').val());
+        if($('#search-end-date').val()) filteredEvents = filteredEvents.filter(obj => obj.date_start <= $('#search-end-date').val());        
         search();
     }
 
@@ -347,14 +365,16 @@ $(function() { // Document ready function
         });
     }
 
-    function clearAdvanceSearch(){
+    function clearSearch(){
         $('#search-start-date').val("");
         $('#search-end-date').val("");
         $('input:checkbox').each(function(){
             $(this).prop("checked", false);
         });
         $('#tag-search-input').val("");
-        tagSearch();
+        $("#search-input").val("")
+        filteredEvents = events;
+        search();
     }
 
     /* Function to animate height: auto */

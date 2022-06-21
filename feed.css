@@ -5,6 +5,7 @@
     --gray: #333333;
 }
 
+/*The entire feed*/
 .happening-feed {
     width: 100%;
 }
@@ -21,6 +22,7 @@
     text-decoration: underline;
 }
 
+/*Every container in the feed*/
 .feed-container{
     display: flex;
     flex-wrap: wrap;
@@ -31,10 +33,12 @@
     align-items: center;
 }
 
+/*Every row in the event display area*/
 .event-row{
     contain: layout style inline-size;
 }
 
+/*Every single event*/
 .event{
     box-sizing: border-box;
     border: #fff solid 5px;
@@ -50,6 +54,7 @@
     padding: 5px;
 }
 
+/*The link to Happening @ Michigan at the end of the feed*/
 .link-to-happening{
     border: #fff solid 5px;
     background: var(--gray);
@@ -61,6 +66,7 @@
     font-size: 14px;
 }
 
+/*Every link container in the events*/
 .link-container{
     flex: 0 0 50%;
     max-width: 50%;
@@ -100,6 +106,7 @@
     position: relative;
 }
 
+/*colors for icons*/
 .maize{
     color: var(--maize);
 }
@@ -107,6 +114,7 @@
 .blue{
     color: var(--blue);
 }
+/*colors for icons end*/
 
 .page-button{
     padding: 15px 15px;
@@ -121,12 +129,13 @@
     background-color: #ffe205;
 }
 
+/*Changes color of the button of current page*/
 .current-page{
     background-color: #007bff;
 }
 
-/* wide settings start here*/
 
+/*Wide settings start*/
 .event-wide{
     box-sizing: border-box;
     border: #fff solid 5px;
@@ -154,8 +163,9 @@
     float: left;
     margin-right: 10px;
 }
+/*Wide settings ends*/
 
-/* The Modal (background) */
+/* The Modal (background)*/
 .feed-modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -422,13 +432,13 @@
     background-color: #ccc;
 }
 
-.advance-search-clear{
+.search-clear{
     background-color: #fff;
     color: red;
     border: none;
     cursor: pointer;
 }
 
-.advance-search-clear:hover{
+.search-clear:hover{
     text-decoration: underline;
 }
