@@ -3,11 +3,15 @@
 A HTML embedded event feed for [Happening @ Michigan](https://events.umich.edu/) coded with JavaScript.
 
 
-## Feature
+## Features
 
-1. Show all the events from an user chosen page in [Happening @ Michigan](https://events.umich.edu/).
-2. Title linked to the specific event, date, location, and additional links of every event will be shown.
-3. A link to the user chosen page.
+1. Show all events from an user chosen page in [Happening @ Michigan](https://events.umich.edu/).
+2. Title linked to the specific event
+3. Date, location, and additional links of events will be shown.
+4. Configurable ability to search by keword, date, type, and tag.
+5. Configurable ability to click an event and get a pop-up of more detail before going off to Happening.
+6. Configurable ability to have a different view that every event is wider.
+7. A link to the user chosen page.
 
 ## Usage
 1. Find the event page to be fed to the event feed on [Happening @ Michigan](https://events.umich.edu/).
@@ -16,25 +20,31 @@ A HTML embedded event feed for [Happening @ Michigan](https://events.umich.edu/)
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">        
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@2.1.0/feed.css" integrity="sha384-q+kQp0wLuhXDFz6K3uZkq9873k0O6POs20xnS36sHNHyLZufGS6v9bSTPdrD4jY1" crossorigin="anonymous">
-<div id="#happening-feed" url = "https://events.umich.edu/day/json?v=2"></div>
-<script src="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@2.1.0/feed.js" integrity="sha384-HE/NiCvGF8D6eKzLlPLA1PP3tFP1dIzNMdZXA4bM3QXaFYr8SV4JSjOcdYT36vuT" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.css"/>    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@3.2.0/feed.css" integrity="sha384-Aeo1hqs4QQNiYueo1pvhB+X16MCDBnQXeO6ljxevDpFRoIQysEeb7dekiw1oiXqJ" crossorigin="anonymous">
+<div id= "happening-feed" class = "happening-feed pop-up search" url = "https://events.umich.edu/week/json?v=2"></div>
+<script src="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@3.2.0/feed.js" integrity="sha384-SOD+Iyuo8/7KpAJz14+BNud7sFiL8kHuuhF8TVBvBD6FAFrAi4fDfPWwOFvdJyEs" crossorigin="anonymous"></script>
 ```
-4. Replace the url attribute of ```<div id = "happening-feed">``` with the URL you just copied (default URL is for [New Events Today](https://events.umich.edu/day)).
+4. Replace the url attribute of ```<div id = "happening-feed">``` with the URL you just copied (default URL is for [New Events This Week](https://events.umich.edu/week)).
 5. Paste the whole HTML code to where you want the event feed to be.
-6. You're all set!
+6. Defalt setting for configurable abilities are normal view, enable pop-up, and enable search. 
+7. To set the feed to wider view, add "wide" to class list of  ```<div id = "happening-feed">```. 
+8. To disable pop-up, remove "pop-up" from class list of  ```<div id = "happening-feed">```
+9. To disable search , remove "search" from class list of  ```<div id = "happening-feed">```
+10. You're all set!
 
 ## Example
 
 ```html
-<!-- "New Events Today" for May 25, 2022 -->
+<!-- "New Events This Week" for June 21, 2022 with default setting -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">        
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@2.1.0/feed.css" integrity="sha384-q+kQp0wLuhXDFz6K3uZkq9873k0O6POs20xnS36sHNHyLZufGS6v9bSTPdrD4jY1" crossorigin="anonymous">
-<div id="#happening-feed" url = "https://events.umich.edu/day/json?v=2"></div>
-<script src="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@2.1.0/feed.js" integrity="sha384-HE/NiCvGF8D6eKzLlPLA1PP3tFP1dIzNMdZXA4bM3QXaFYr8SV4JSjOcdYT36vuT" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.css"/>    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@3.2.0/feed.css" integrity="sha384-Aeo1hqs4QQNiYueo1pvhB+X16MCDBnQXeO6ljxevDpFRoIQysEeb7dekiw1oiXqJ" crossorigin="anonymous">
+<div id= "happening-feed" class = "happening-feed pop-up search" url = "https://events.umich.edu/week/json?v=2"></div>
+<script src="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@3.2.0/feed.js" integrity="sha384-SOD+Iyuo8/7KpAJz14+BNud7sFiL8kHuuhF8TVBvBD6FAFrAi4fDfPWwOFvdJyEs" crossorigin="anonymous"></script>
 ```
 ![Screen Shot](/images/event-feed-example.png)
 
