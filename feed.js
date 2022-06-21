@@ -321,7 +321,6 @@ $(function() { // Document ready function
         });
         $('#search-clear').on('click', function(){
             clearSearch();
-            $('#advance-search').stop().animate({ height: '0'}, animateTime);
         });
     }
 
