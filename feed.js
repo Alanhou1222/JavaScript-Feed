@@ -1,8 +1,7 @@
 $(function() { // Document ready function
     var url = $('#happening-feed').attr('url'); // This is the URL for your JSON feed.
-    loaderHtml = '<div class = "loader-container feed-container center"><div class="loader"></div></div>';
-    $('#happening-feed').append(loaderHtml);
-    //pagination and modal
+
+    //Pagination and modal
     var state = {
         'page':1,
         'elements': 7,
@@ -14,25 +13,25 @@ $(function() { // Document ready function
         'currentEvent': 1,
     }
 
-    //configuration
+    //Configuration
     var config = {
         'pop-up': false,
         'wide': false,
         'search': false,
     }
 
-    //params
+    //Params
     var params = {
         'elementWidth': 300,
         'wide': "",
     }
 
-    //copy of events data
+    //Events data
     var events;
     var filteredEvents;
     var showEvents;
 
-    //placeholder
+    //Event placeholder
     var placeholder = {
         'image_url': "https://events.umich.edu/images/default-events-module.png",
         'permalink': "https://events.umich.edu/",
@@ -46,6 +45,10 @@ $(function() { // Document ready function
     var tagSet = new Set();
     var typeSet = new Set();
 
+    //Display the loader before getting the json data
+    loaderHtml = '<div class = "loader-container feed-container center"><div class="loader"></div></div>';
+    $('#happening-feed').append(loaderHtml);
+    
     // Run an ajax call. The documentation is here : http://api.jquery.com/jquery.ajax/
     $.ajax({
         url: url, // Set the URL for the json feed
@@ -102,7 +105,7 @@ $(function() { // Document ready function
             state.feedSize = $('#event-feed').width();
             state.elementPerRow = Math.floor(state.feedSize/params["elementWidth"])>=1 ? Math.floor(state.feedSize/params["elementWidth"]): 1;
             pagination();
-            advanceSearchSetup();
+            if(config['search']) advanceSearchSetup();
         }
     });
 
@@ -144,11 +147,19 @@ $(function() { // Document ready function
             html = "<h3>No events found. Please modify your search and try again</h3>";
             $('.event-row').last().append(html);
         }
-        $(".feed-modal-button").click(function() {
-            $('#feed-modal').show();
-            state['currentEvent'] = $(this).val();
-            buildModal(showEvents[state['currentEvent']]);
-        });
+        
+        if(config['pop-up']){
+            $(".feed-modal-button").click(function() {
+                $('#feed-modal').show();
+                state['currentEvent'] = $(this).val();
+                buildModal(showEvents[state['currentEvent']]);
+            });
+            $(".event-title").click(function() {
+                $('#feed-modal').show();
+                state['currentEvent'] = $(this).val();
+                buildModal(showEvents[state['currentEvent']]);
+            });
+        }
         pageButton();
     }
     
@@ -196,7 +207,8 @@ $(function() { // Document ready function
         html += image;
         html += '<div class = "event-text'+params['wide']+'">';
         let title = obj.event_title;
-        html += '<h3><a href ='+obj.permalink+'>'+title+'</a></h3>';
+        if(config['pop-up']) html += '<button value = "'+count+'" class = "event-title"><h3>'+title+'</h3></button>';
+        else html += '<a href ='+obj.permalink+'><h3>'+title+'</h3></a>';
         let date = obj.date_start;
         if(date){
             html += '<ul><li><i class="fa fa-fw fa-calendar"></i><span> Date: '+date+'</span></li>';
@@ -241,7 +253,18 @@ $(function() { // Document ready function
         html += '<div class = "feed-modal-main"><div class= "feed-modal-text">';
         html += obj.description;
         html += '</div><hr><ul><li><i class="fa fa-fw fa-calendar"></i>';
-        html += '<span> '+obj.date_start+'</span></li>';
+        html += '<span> '+obj.date_start.replaceAll('-', '/')+'</span></li>';
+        let hours = obj.time_start.substring(0,2);
+        let minutes = obj.time_start.substring(3,5);
+        let ampm = parseInt(hours) >= 12 ? 'pm' : 'am';
+        hours = ((hours + 11) % 12 + 1);
+        let strStartTime = hours + ':' + minutes + ampm;
+        hours = obj.time_end.substring(0,2);
+        minutes = obj.time_end.substring(3,5);
+        ampm = parseInt(hours) >= 12 ? 'pm' : 'am';
+        hours = ((hours + 11) % 12 + 1);
+        let strEndTime = hours + ':' + minutes + ampm;
+        html += '<li><i class="fa fa-fw fa-clock-o"></i><span> '+strStartTime+' - '+strEndTime+'</span></li>';
         if(obj.location_name) html += '<li><i class="fa fa-location-arrow fa-fw"></i><span> Location: '+obj.location_name+'</span></li>';
         html += '</ul></div>';
         if($( window ).width() <= 800) html += buildModalLinks(obj);
