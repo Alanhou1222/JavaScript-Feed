@@ -69,7 +69,7 @@ $(function() { // Document ready function
             });
             if(config['search']){
                 searchHtml = '<div class = "feed-search feed-container center"><div id = "search-content" class = "search-content"><h3>Search Events</h3>'
-                searchHtml += '<input id= "search-input" class = "search-input" type="text" placeholder="Search.."></input><div class = "advance-search-toggle-container"><a id = "advance-search-toggle" class = "advance-search-toggle">advance search</a><div>';
+                searchHtml += '<input id= "search-input" class = "search-input" type="text" placeholder="Search.."></input><div class = "advance-search-toggle-container"><a id = "advance-search-toggle">advance search</a><div>';
                 $('#happening-feed').append(searchHtml);
                 $("#search-input").on("keyup", function() {
                     search();
@@ -149,7 +149,7 @@ $(function() { // Document ready function
         }
         
         if(config['pop-up']){
-            $(".feed-modal-button").click(function() {
+            $(".event-modal-button").click(function() {
                 $('#feed-modal').show();
                 state['currentEvent'] = $(this).val();
                 buildModal(showEvents[state['currentEvent']]);
@@ -233,7 +233,7 @@ $(function() { // Document ready function
         }
         html += '</div>';
         // When the user clicks the buttons, open the modal 
-        if(config["pop-up"]&&count != -1) html += '<button value = "'+count+'" class = "feed-modal-button">Read More</button>';
+        if(config["pop-up"]&&count != -1) html += '<button value = "'+count+'" class = "event-modal-button">Read More</button>';
         html += '</div>';
         return html;
     }

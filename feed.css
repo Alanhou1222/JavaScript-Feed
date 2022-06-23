@@ -22,6 +22,43 @@
     text-decoration: underline;
 }
 
+/*loader*/
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 100px;
+    height: 100px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+.loader-container{
+    width: 100%;
+    margin-top: 30px;
+}
+/* Safari */
+@-webkit-keyframes spin {
+0% { -webkit-transform: rotate(0deg); }
+100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+
+/*colors for icons*/
+.maize{
+    color: var(--maize);
+}
+
+.blue{
+    color: var(--blue);
+}
+/*colors for icons end*/
+
 /*Every container in the feed*/
 .feed-container{
     display: flex;
@@ -33,6 +70,7 @@
     align-items: center;
 }
 
+/*Events Settings Start*/
 /*Every row in the event display area*/
 .event-row{
     contain: layout style inline-size;
@@ -49,7 +87,45 @@
     color: #fff;
 }
 
+.event-wide{
+    box-sizing: border-box;
+    border: #fff solid 5px;
+    background: var(--gray);
+    padding: 0px;
+    min-height: 160px;
+    position: relative;
+    color: #fff;
+}
+
+.event-image{
+    color: white;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    text-align: center;
+    height: 160px;
+    position: relative;
+}
+
+.event-image-wide{
+    color: white;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    text-align: center;
+    height: 160px;
+    position: relative;
+    width: 30%;
+    float: left;
+    margin-right: 10px;
+}
+
 .event-text{
+    background: var(--gray);
+    padding: 5px;
+}
+
+.event-text-wide{
     background: var(--gray);
     padding: 5px;
 }
@@ -66,18 +142,6 @@
 
 .event-title:hover{
     text-decoration: underline;
-}
-
-/*The link to Happening @ Michigan at the end of the feed*/
-.link-to-happening{
-    border: #fff solid 5px;
-    background: var(--gray);
-    padding: 10px;
-    margin-bottom: 5px;
-}
-
-.link-to-happening a{
-    font-size: 14px;
 }
 
 /*Every link container in the events*/
@@ -111,26 +175,36 @@
     font-size: 14px;
 }
 
-.event-image{
-    color: white;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center center;
-    text-align: center;
-    height: 160px;
-    position: relative;
-}
-
-/*colors for icons*/
-.maize{
+.event-modal-button{
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    border: none;
+    text-decoration: none;
+    background-color: transparent;
     color: var(--maize);
+    font-family: inherit;
 }
 
-.blue{
-    color: var(--blue);
+.event-modal-button:hover{
+    text-decoration: underline;
 }
-/*colors for icons end*/
 
+/*The link to Happening @ Michigan at the end of the feed*/
+.link-to-happening{
+    border: #fff solid 5px;
+    background: var(--gray);
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.link-to-happening a{
+    font-size: 14px;
+}
+/*Events Settings End*/
+
+
+/*Pagination Settings Start*/
 .page-button{
     padding: 15px 15px;
     text-align: center;
@@ -148,38 +222,10 @@
 .current-page{
     background-color: #007bff;
 }
+/*Pagination Settings Ends*/
 
 
-/*Wide settings start*/
-.event-wide{
-    box-sizing: border-box;
-    border: #fff solid 5px;
-    background: var(--gray);
-    padding: 0px;
-    min-height: 160px;
-    position: relative;
-    color: #fff;
-}
-
-.event-text-wide{
-    background: var(--gray);
-    padding: 5px;
-}
-
-.event-image-wide{
-    color: white;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center center;
-    text-align: center;
-    height: 160px;
-    position: relative;
-    width: 30%;
-    float: left;
-    margin-right: 10px;
-}
-/*Wide settings ends*/
-
+/*Pop-up Settings Start*/
 /* The Modal (background)*/
 .feed-modal {
     display: none; /* Hidden by default */
@@ -196,7 +242,18 @@
     -webkit-animation-duration: 0.4s;
     animation-name: fadeIn;
     animation-duration: 0.4s;
-  }
+}
+
+/* Modal Animation */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0} 
+    to {opacity: 1}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0} 
+    to {opacity: 1}
+}
 
 /* Modal Content */
 .feed-modal-content {
@@ -213,22 +270,12 @@
     color: var(--blue);
 }
 
-.feed-modal-button{
-    position: absolute;
-    right: 5px;
-    bottom: 5px;
-    border: none;
-    text-decoration: none;
-    background-color: transparent;
+.feed-modal-header {
+    padding: 2px 16px;
+    background-color: var(--dark-blue);
     color: var(--maize);
-    font-family: inherit;
 }
 
-.feed-modal-button:hover{
-    text-decoration: underline;
-}
-
-/* The Close Button */
 .feed-modal-close {
     color: white;
     float: right;
@@ -240,12 +287,6 @@
     color: var(--maize);
     text-decoration: none;
     cursor: pointer;
-}
-  
-.feed-modal-header {
-    padding: 2px 16px;
-    background-color: var(--dark-blue);
-    color: var(--maize);
 }
   
 .feed-modal-body {
@@ -265,6 +306,20 @@
 .feed-modal-text{
     color: var(--dark-blue);
     overflow-wrap: break-word;
+}
+
+.feed-modal ul{
+    border: var(--maize) dashed 3px;
+    padding:10px;
+    border-radius: 10px;
+    list-style-type: none;
+}
+
+#feed-modal-event-link{
+    font-size: 16px;
+    float:right;
+    margin-right: 16px;
+    margin-bottom: 10px;
 }
 
 .feed-modal-side{
@@ -290,20 +345,6 @@
     font-size: 14px;
 }
 
-.feed-modal ul{
-    border: var(--maize) dashed 3px;
-    padding:10px;
-    border-radius: 10px;
-    list-style-type: none;
-}
-
-#feed-modal-event-link{
-    font-size: 16px;
-    float:right;
-    margin-right: 16px;
-    margin-bottom: 10px;
-}
-
 /* media query for modal*/
 @media screen and (max-width: 800px) {
     .feed-modal-body{
@@ -318,7 +359,9 @@
         width: 100%;
     }
 }
+/*Pop-up Settings End*/
 
+/*Search Settings Start*/
 /*search bar*/
 .feed-search{
     background-image: url(images/search.jpg);
@@ -353,45 +396,13 @@
 .search-input{
     height: 30px;
     width: 100%;
-    box-sizing:border-box;
+    box-sizing: border-box;
     border-radius: 5px;
 }
 
-/* Modal Animation */
-@-webkit-keyframes fadeIn {
-    from {opacity: 0} 
-    to {opacity: 1}
-}
-
-@keyframes fadeIn {
-    from {opacity: 0} 
-    to {opacity: 1}
-}
-
-/*loader*/
-.loader {
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 100px;
-  height: 100px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-}
-
-.loader-container{
-    width: 100%;
-    margin-top: 30px;
-}
-/* Safari */
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.advance-search-toggle-container{
+    margin-top: 20px;
+    text-align: right;
 }
 
 .advance-search{
@@ -401,14 +412,13 @@
     overflow: hidden;
 }
 
-
-.search-container{
-    padding-top: 10px;
-}
-
 .search-date{
     width: 100%;
     height: 30px;
+}
+
+.search-container{
+    padding-top: 10px;
 }
 
 .search-checkbox-container{
@@ -429,11 +439,6 @@
 
 .type-row{
     margin-top: 10px;
-}
-
-.advance-search-toggle-container{
-    margin-top: 20px;
-    text-align: right;
 }
 
 .advance-search-button-container{
@@ -464,3 +469,4 @@
 .search-clear:hover{
     text-decoration: underline;
 }
+/*Search Settings end*/
