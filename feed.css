@@ -104,6 +104,7 @@
 .event h3, .event-wide h3{
     margin: 5px 0;
     font-size: 14px;
+    line-height: 125%;
 }
 
 .event h3 a, .event-wide h3 a{
