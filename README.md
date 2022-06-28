@@ -22,9 +22,9 @@ A HTML embedded event feed for [Happening @ Michigan](https://events.umich.edu/)
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.css"/>    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@3.3.1/feed.css" integrity="sha384-ULhdIh9U/JvgmjDqPZKWw+lm5fkjnCqnjaA9rgNr7JT8lxwq+VTPYh0aaVEPg0Ke" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@3.3.2/feed.css" integrity="sha384-n6sIbikRD+6xHnlwS8FN2PN3i0Jhym1Rq0OPGXUP1HVWsseoplDT0h6LUgKSUQJR" crossorigin="anonymous">
 <div id= "happening-feed" class = "happening-feed pop-up search" url = "https://events.umich.edu/week/json?v=2"></div>
-<script src="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@3.3.1/feed.js" integrity="sha384-5B3hw/07Liyu/d34UvZ14rLgqIwCARDkELdGyesp5XAgDxdhJQ7DKMzZ8LU9pSOU" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/Alanhou1222/JavaScript-Feed@3.3.2/feed.js" integrity="sha384-VoaFh4MBaleIiYr6CvluZ1HZ436lfSrK4Gdq2KpWmn277QW6M9H4lC0U+2nKHFjh" crossorigin="anonymous"></script>
 ```
 4. Replace the url attribute of ```<div id = "happening-feed">``` with the URL you just copied (default URL is for [New Events This Week](https://events.umich.edu/week)).
 5. Paste the whole HTML code to where you want the event feed to be.
