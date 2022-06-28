@@ -6,7 +6,7 @@ A HTML embedded event feed for [Happening @ Michigan](https://events.umich.edu/)
 ## Features
 
 1. Show all events from an user chosen page in [Happening @ Michigan](https://events.umich.edu/).
-2. Titles link to the page of specific event when the pop-ups are disabled or trigger pop-ups otherwise.
+2. Titles link to the page of a specific event when the pop-ups are disabled or trigger pop-ups otherwise.
 3. Date, location, and additional links of events will be shown.
 4. Configurable ability to search by keword, date, type, and tag.
 5. Configurable ability to click an event and get a pop-up of more detail before going off to Happening.
