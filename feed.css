@@ -130,6 +130,10 @@
     padding: 5px;
 }
 
+.event-text-wide button{
+    width: 65%;
+}
+
 .event-title{
     border: none;
     text-decoration: none;
