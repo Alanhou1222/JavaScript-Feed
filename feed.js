@@ -168,9 +168,15 @@ $(function() { // Document ready function
         buildModal(showEvents[state['currentEvent']]);
       });
       $(".event-title").click(function() {
-        $('#feed-modal').show();
         state['currentEvent'] = $(this).val();
-        buildModal(showEvents[state['currentEvent']]);
+        if(state['currentEvent'] == -1){
+            window.open(placeholder.permalink);
+        }
+        else{
+            $('#feed-modal').show();
+            buildModal(showEvents[state['currentEvent']]);
+        }
+        
       });
     }
     pageButton();
